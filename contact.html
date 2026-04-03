@@ -7,17 +7,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #f7f5f2;
-      --surface: #ffffff;
-      --surface2: #f0ede8;
-      --text: #1a1a2e;
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1a1a2e;
+      --text: #f0ede8;
       --muted: #888;
-      --border: #e0dbd4;
+      --border: #222230;
       --blue: #4d96ff;
-      --gold: #e8a020;
-      --green: #22c55e;
-      --red: #ef4444;
-      --purple: #8b5cf6;
+      --gold: #e8c97e;
+      --green: #6bcb77;
+      --red: #ff6b6b;
+      --purple: #c77dff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,7 +31,7 @@
 
     /* NAV */
     nav {
-      background: white;
+      background: #0d0d14;
       padding: 18px 40px;
       display: flex;
       justify-content: center;
@@ -40,7 +40,6 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
     }
     nav a {
       color: var(--muted);
@@ -58,7 +57,7 @@
     .page-header {
       text-align: center;
       padding: 70px 20px 50px;
-      background: white;
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
     .badge {
@@ -102,7 +101,7 @@
     .info-col { display: flex; flex-direction: column; gap: 16px; }
 
     .info-card {
-      background: white;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 22px 24px;
@@ -153,7 +152,7 @@
 
     /* SOCIAL SECTION */
     .social-section {
-      background: white;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 22px 24px;
@@ -197,11 +196,11 @@
     }
 
     .form-card {
-      background: white;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     }
 
     .form-card h2 {
@@ -308,7 +307,7 @@
       color: var(--muted);
       font-size: 13px;
       border-top: 1px solid var(--border);
-      background: white;
+      background: var(--surface);
     }
 
     @media (max-width: 768px) {
@@ -340,11 +339,11 @@
     <!-- LEFT: INFO -->
     <div class="info-col">
 
-      <a href="mailto:shakeelahmadkhalilahmadd299@gmail.com" class="info-card">
+      <a href="/cdn-cgi/l/email-protection#42312a232927272e232a2f2326292a232e2b2e232a2f232626707b7b02252f232b2e6c212d2f" class="info-card">
         <div class="info-icon icon-blue">📧</div>
         <div>
           <div class="info-label">Email</div>
-          <div class="info-value">shakeelahmadkhalilahmadd299@gmail.com</div>
+          <div class="info-value"><span class="__cf_email__" data-cfemail="0a79626b616f6f666b62676b6e61626b6663666b62676b6e6e3833334a6d676b636624696567">[email&#160;protected]</span></div>
         </div>
       </a>
 
@@ -430,7 +429,7 @@
 
   <footer>© 2024 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     function sendMessage() {
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -452,15 +451,4 @@
       const mailtoLink = `mailto:shakeelahmadkhalilahmadd299@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message)}`;
       window.location.href = mailtoLink;
 
-      document.getElementById('successMsg').classList.add('show');
-
-      // Reset form
-      document.getElementById('name').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('subject').value = '';
-      document.getElementById('message').value = '';
-    }
-  </script>
-
-</body>
-</html>
+      document.getElementById('successMsg').classLi
