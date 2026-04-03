@@ -1,21 +1,493 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shakeel Ahmad — Future Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --text: #f0ede8;
+      --muted: #888;
+      --border: #222230;
+      --gold: #e8c97e;
+      --blue: #4d96ff;
+      --purple: #c77dff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND GLOW */
+    .bg-glow {
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(77,150,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow2 {
+      position: fixed;
+      bottom: -200px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(199,125,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      background: rgba(13,13,20,0.85);
+      backdrop-filter: blur(12px);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: white; }
+    nav a.active { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1100px;
+      width: 100%;
+      gap: 80px;
+      align-items: center;
+    }
+
+    /* LEFT TEXT */
+    .hero-text { }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(77,150,255,0.1);
+      border: 1px solid rgba(77,150,255,0.25);
+      color: var(--blue);
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      background: var(--blue);
+      border-radius: 50%;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 1.05;
+      margin-bottom: 16px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-name .highlight {
+      background: linear-gradient(135deg, var(--gold), #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-title span {
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 440px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    /* BUTTONS */
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn-primary {
+      padding: 13px 28px;
+      background: linear-gradient(135deg, var(--blue), #2563eb);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(77,150,255,0.3);
+    }
+
+    .btn-secondary {
+      padding: 13px 28px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* SOCIAL LINKS */
+    .social-links {
+      display: flex;
+      gap: 14px;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    .social-link {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 18px;
+      transition: all 0.25s;
+      color: var(--muted);
+    }
+    .social-link:hover {
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      color: white;
+    }
+    .social-link.github:hover { background: rgba(255,255,255,0.08); }
+    .social-link.gmail:hover { background: rgba(234,67,53,0.15); border-color: rgba(234,67,53,0.4); }
+    .social-link.phone:hover { background: rgba(107,203,119,0.15); border-color: rgba(107,203,119,0.4); }
+    .social-link.linkedin:hover { background: rgba(10,102,194,0.15); border-color: rgba(10,102,194,0.4); }
+
+    /* RIGHT — AVATAR */
+    .hero-avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 320px;
+      height: 320px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold), var(--blue), var(--purple), var(--gold));
+      padding: 3px;
+      animation: spin 8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-ring-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-photo {
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 100px;
+      overflow: hidden;
+      border: 3px solid var(--bg);
+    }
+    .avatar-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* FLOATING BADGES */
+    .float-badge {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      animation: float 3s ease-in-out infinite;
+    }
+    .float-badge.b1 {
+      top: 10px; right: -30px;
+      color: var(--gold);
+      border-color: rgba(232,201,126,0.3);
+      animation-delay: 0s;
+    }
+    .float-badge.b2 {
+      bottom: 30px; left: -40px;
+      color: var(--blue);
+      border-color: rgba(77,150,255,0.3);
+      animation-delay: 1s;
+    }
+    .float-badge.b3 {
+      bottom: 100px; right: -20px;
+      color: var(--purple);
+      border-color: rgba(199,125,255,0.3);
+      animation-delay: 2s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+      animation: fadeUp 0.6s ease both;
+    }
+    .stat-card:nth-child(1) { animation-delay: 0.6s; }
+    .stat-card:nth-child(2) { animation-delay: 0.7s; }
+    .stat-card:nth-child(3) { animation-delay: 0.8s; }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .stat-card:nth-child(1) .stat-num { color: var(--gold); }
+    .stat-card:nth-child(2) .stat-num { color: var(--blue); }
+    .stat-card:nth-child(3) .stat-num { color: var(--purple); }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 50px; }
+      .hero-avatar { order: -1; }
+      .avatar-wrap { width: 240px; height: 240px; }
+      .avatar-photo { width: 210px; height: 210px; font-size: 70px; }
+      .float-badge.b1 { right: -10px; top: 0; }
+      .float-badge.b2 { left: -10px; }
+      .hero-btns, .social-links { justify-content: center; }
+      .hero-desc { margin: 0 auto 36px; }
+      .stats-bar { grid-template-columns: 1fr; padding: 0 20px 60px; }
+      nav { gap: 20px; padding: 16px 20px; }
+      .hero { padding: 40px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-    <a href="index.html">Home</a>
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
+
+  <nav>
+    <a href="index.html" class="active">Home</a>
     <a href="about.html">About</a>
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact</a>
-</nav>
+  </nav>
 
-<h1>Hi, iam Shakeel Ahmad</h1>
-<p>This is my first GitHub blog website.</p>
+  <section class="hero">
+    <div class="hero-inner">
+
+      <!-- LEFT -->
+      <div class="hero-text">
+        <div class="status-pill">
+          <div class="status-dot"></div>
+          UET Lahore — 2nd Semester
+        </div>
+
+        <h1 class="hero-name">
+          Shakeel<br><span class="highlight">Ahmad</span>
+        </h1>
+
+        <p class="hero-title">
+          <span>Future Engineer</span> · Tech Enthusiast
+        </p>
+
+        <p class="hero-desc">
+          Engineering student at UET Lahore, Faisalabad Campus. Passionate about Web Development, Machine Learning, and building things that matter.
+        </p>
+
+        <div class="hero-btns">
+          <a href="about.html" class="btn-primary">About Me →</a>
+          <a href="blog.html" class="btn-secondary">Read My Blog</a>
+        </div>
+
+        <div class="social-links">
+          <a href="https://shakeel896.github.io" target="_blank" class="social-link github" title="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="mailto:shakeelahmadkhalilahmadd299@gmail.com" class="social-link gmail" title="Gmail">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.909 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+          </a>
+          <a href="tel:+923704218263" class="social-link phone" title="Phone">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="social-link linkedin" title="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT AVATAR -->
+      <div class="hero-avatar">
+        <div class="avatar-wrap">
+          <div class="avatar-ring">
+            <div class="avatar-ring-inner">
+              <div class="avatar-photo">
+                <!-- Apni photo lagani ho to: <img src="your-photo.jpg" alt="Shakeel Ahmad"> -->
+                🧑‍💻
+              </div>
+            </div>
+          </div>
+
+          <div class="float-badge b1">🎓 UET Lahore</div>
+          <div class="float-badge b2">🌐 Web Dev</div>
+          <div class="float-badge b3">🤖 ML Enthusiast</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-num">2nd</div>
+      <div class="stat-label">SEMESTER AT UET</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">BLOG POSTS WRITTEN</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">TECHNOLOGIES LEARNED</div>
+    </div>
+  </div>
+
+  <footer>© 2024 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
 
 </body>
 </html>
-
