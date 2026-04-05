@@ -22,392 +22,348 @@
       --c8: #ff6eb4;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-    nav {
-      background: #0d0d14;
-      padding: 18px 40px;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* ===== PAGE LOADER ===== */
+    #page-loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
+    #page-loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-ring {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--c4);
+      border-right-color: var(--c5);
+      animation: loaderSpin 0.9s linear infinite;
+    }
+    @keyframes loaderSpin { to { transform: rotate(360deg); } }
+    .loader-text { color: var(--muted); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ===== PARTICLES ===== */
+    #particle-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+
+    /* ===== CURSOR GLOW ===== */
+    .cursor-glow {
+      position: fixed; width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(199,125,255,0.06) 0%, transparent 70%);
+      pointer-events: none; transform: translate(-50%,-50%); z-index: 0;
+      transition: left 0.1s ease, top 0.1s ease;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      background: rgba(13,13,20,0.9);
+      backdrop-filter: blur(14px);
+      padding: 18px 40px;
+      display: flex; justify-content: center; gap: 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      animation: slideDown 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
     nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 500;
-      transition: color 0.3s;
+      color: var(--muted); text-decoration: none; font-size: 14px;
+      letter-spacing: 2px; text-transform: uppercase; font-weight: 500;
+      transition: color 0.3s; position: relative;
+    }
+    nav a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:2px; background:var(--c5); border-radius:2px;
+      transition: width 0.3s ease;
     }
     nav a:hover { color: white; }
+    nav a:hover::after { width: 100%; }
     nav a.active { color: white; }
+    nav a.active::after { width: 100%; background: var(--c4); }
 
-    .page-header { text-align: center; padding: 70px 20px 40px; }
+    /* ===== PAGE HEADER ===== */
+    .page-header { text-align: center; padding: 70px 20px 40px; position: relative; z-index: 1; }
     .page-header .badge {
       display: inline-block;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       color: var(--muted);
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      padding: 6px 18px; border-radius: 20px;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
       margin-bottom: 20px;
+      animation: fadeUp 0.6s 0.2s ease both; opacity:0;
     }
     .page-header h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(36px, 6vw, 64px);
       margin-bottom: 16px;
       background: linear-gradient(135deg, #4d96ff, #6bcb77, #ffd93d, #ff6b6b, #c77dff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: fadeUp 0.6s 0.3s ease both, gradientShift 6s ease-in-out infinite;
+      opacity:0;
     }
-    .page-header p { color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+    @keyframes gradientShift {
+      0%,100%{background-position:0% 50%} 50%{background-position:100% 50%}
+    }
+    .page-header p {
+      color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.7;
+      animation: fadeUp 0.6s 0.4s ease both; opacity:0;
+    }
 
-    /* TIMELINE LABEL */
+    /* ===== SECTION DIVIDER ===== */
     .section-divider {
-      max-width: 1200px;
-      margin: 0 auto 10px;
+      max-width: 1200px; margin: 0 auto 10px;
       padding: 0 40px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      display: flex; align-items: center; gap: 16px;
+      position: relative; z-index: 1;
+      opacity: 0; transform: translateX(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
+    .section-divider.visible { opacity:1; transform:translateX(0); }
     .section-divider:not(:first-of-type) { margin-top: 30px; }
     .divider-label {
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-      font-weight: 600;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap; font-weight: 600;
     }
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .divider-line { flex:1; height:1px; background: var(--border); }
 
+    /* ===== FILTERS ===== */
     .filters {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
       padding: 20px 40px 40px;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.6s 0.5s ease both; opacity:0;
     }
     .tag-btn {
-      padding: 7px 18px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      font-size: 13px;
-      cursor: pointer;
+      padding: 7px 18px; border-radius: 20px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); font-size: 13px; cursor: pointer;
       font-family: 'DM Sans', sans-serif;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative; overflow: hidden;
     }
+    .tag-btn::before {
+      content:''; position:absolute; inset:0;
+      background: rgba(255,255,255,0.05);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .tag-btn:hover::before, .tag-btn.active::before { transform: scaleX(1); }
     .tag-btn:hover, .tag-btn.active {
-      background: rgba(255,255,255,0.07);
-      color: white;
-      border-color: rgba(255,255,255,0.2);
+      color: white; border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
     }
 
+    /* ===== BLOG GRID ===== */
     .blog-grid {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1200px; margin: 0 auto;
       padding: 0 40px 80px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 28px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px; position: relative; z-index: 1;
     }
 
+    /* ===== BLOG CARD ===== */
     .blog-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 16px; overflow: hidden;
       cursor: pointer;
-      animation: fadeUp 0.6s ease forwards;
-      opacity: 0;
+      opacity: 0; transform: translateY(30px);
+      transition:
+        transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow 0.4s ease,
+        border-color 0.3s ease,
+        opacity 0.5s ease;
+      position: relative;
     }
-    .blog-card:hover { transform: translateY(-6px); }
+    .blog-card.in-view { opacity:1; transform:translateY(0); }
+    .blog-card:hover { transform: translateY(-8px) scale(1.01); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* Card shine on hover */
+    .blog-card::before {
+      content:''; position:absolute; top:0; left:-100%;
+      width:60%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+      transition: left 0.5s ease;
+      pointer-events:none; z-index:2;
     }
-    .blog-card:nth-child(1) { animation-delay: 0.08s; }
-    .blog-card:nth-child(2) { animation-delay: 0.16s; }
-    .blog-card:nth-child(3) { animation-delay: 0.24s; }
-    .blog-card:nth-child(4) { animation-delay: 0.32s; }
-    .blog-card:nth-child(5) { animation-delay: 0.40s; }
-    .blog-card:nth-child(6) { animation-delay: 0.48s; }
-    .blog-card:nth-child(7) { animation-delay: 0.56s; }
-    .blog-card:nth-child(8) { animation-delay: 0.64s; }
-    .blog-card:nth-child(9) { animation-delay: 0.72s; }
+    .blog-card:hover::before { left:150%; }
 
-    /* FEATURED CARD (first card — full width) */
+    /* ===== FEATURED CARD ===== */
     .blog-card.featured {
       grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: 380px 1fr;
+      display: grid; grid-template-columns: 380px 1fr;
     }
-    .blog-card.featured .card-banner { display: none; }
-    .blog-card.featured .card-img {
-      height: 100%;
-      min-height: 260px;
-      border-radius: 0;
-    }
-    .blog-card.featured .card-body { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
-    .blog-card.featured .card-title { font-size: 28px; }
-    .blog-card.featured .card-excerpt { font-size: 15px; }
+    .blog-card.featured .card-banner { display:none; }
+    .blog-card.featured .card-img { height:100%; min-height:260px; border-radius:0; }
+    .blog-card.featured .card-body { padding:36px 40px; display:flex; flex-direction:column; justify-content:center; }
+    .blog-card.featured .card-title { font-size:28px; }
+    .blog-card.featured .card-excerpt { font-size:15px; }
 
-    /* Step number badge */
-    .step-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      font-size: 11px;
-      font-weight: 700;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
+    .card-banner { height: 8px; transition: height 0.3s ease; }
+    .blog-card:hover .card-banner { height: 12px; }
 
-    .card-banner { height: 8px; }
-    .card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
-    .card-body { padding: 28px; }
+    .card-img {
+      width:100%; height:200px; object-fit:cover; display:block;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      filter: brightness(0.9);
+    }
+    .blog-card:hover .card-img { transform: scale(1.05); filter: brightness(1.05); }
+    .card-body { padding:28px; }
 
     .card-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
+      display: inline-block; padding:4px 12px; border-radius:12px;
+      font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+      margin-bottom:14px;
+      transition: transform 0.3s ease;
     }
+    .blog-card:hover .card-tag { transform: translateX(4px); }
+
     .card-title {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      line-height: 1.3;
-      margin-bottom: 12px;
+      font-size:22px; line-height:1.3; margin-bottom:12px;
+      transition: color 0.3s;
     }
-    .card-excerpt { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+    .card-excerpt { color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:20px; }
     .card-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--muted);
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      margin-top: auto;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:12px; color:var(--muted);
+      padding-top:16px; border-top:1px solid var(--border);
+      margin-top:auto;
     }
     .read-more {
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: gap 0.3s;
+      font-size:13px; font-weight:500; text-decoration:none;
+      display:flex; align-items:center; gap:4px;
+      transition: gap 0.3s ease, letter-spacing 0.3s ease;
     }
-    .read-more:hover { gap: 8px; }
+    .blog-card:hover .read-more { gap:10px; }
 
     /* ---- Color Themes ---- */
-    .uet       .card-banner { background: var(--c4); }
-    .uet       .card-tag    { background: rgba(77,150,255,0.15); color: var(--c4); }
-    .uet       .card-title  { color: #fff; }
-    .uet       .read-more   { color: var(--c4); }
-    .uet:hover              { box-shadow: 0 20px 40px rgba(77,150,255,0.15); }
+    .uet    .card-banner{background:var(--c4)}  .uet    .card-tag{background:rgba(77,150,255,.15);color:var(--c4)}   .uet    .read-more{color:var(--c4)} .uet:hover{box-shadow:0 20px 50px rgba(77,150,255,.2)}
+    .hostel .card-banner{background:var(--c6)}  .hostel .card-tag{background:rgba(255,154,60,.15);color:var(--c6)}  .hostel .read-more{color:var(--c6)} .hostel:hover{box-shadow:0 20px 50px rgba(255,154,60,.2)}
+    .library.card-banner{background:var(--c7)}  .library.card-tag{background:rgba(0,212,170,.15);color:var(--c7)}  .library.read-more{color:var(--c7)} .library:hover{box-shadow:0 20px 50px rgba(0,212,170,.2)}
+    .semester.card-banner{background:var(--c8)} .semester.card-tag{background:rgba(255,110,180,.15);color:var(--c8)}.semester.read-more{color:var(--c8)}.semester:hover{box-shadow:0 20px 50px rgba(255,110,180,.2)}
+    .htmlcss.card-banner{background:var(--c2)}  .htmlcss.card-tag{background:rgba(255,217,61,.15);color:var(--c2)}  .htmlcss.read-more{color:var(--c2)} .htmlcss:hover{box-shadow:0 20px 50px rgba(255,217,61,.2)}
+    .webdev .card-banner{background:var(--c3)}  .webdev .card-tag{background:rgba(107,203,119,.15);color:var(--c3)} .webdev .read-more{color:var(--c3)} .webdev:hover{box-shadow:0 20px 50px rgba(107,203,119,.2)}
+    .mysql  .card-banner{background:var(--c1)}  .mysql  .card-tag{background:rgba(255,107,107,.15);color:var(--c1)} .mysql  .read-more{color:var(--c1)} .mysql:hover{box-shadow:0 20px 50px rgba(255,107,107,.2)}
+    .cpp    .card-banner{background:var(--c5)}  .cpp    .card-tag{background:rgba(199,125,255,.15);color:var(--c5)} .cpp    .read-more{color:var(--c5)} .cpp:hover{box-shadow:0 20px 50px rgba(199,125,255,.2)}
 
-    .hostel    .card-banner { background: var(--c6); }
-    .hostel    .card-tag    { background: rgba(255,154,60,0.15); color: var(--c6); }
-    .hostel    .card-title  { color: #fff; }
-    .hostel    .read-more   { color: var(--c6); }
-    .hostel:hover           { box-shadow: 0 20px 40px rgba(255,154,60,0.15); }
+    .blog-card.featured.uet { border-left:5px solid var(--c4); }
+    .uet .card-title, .hostel .card-title, .library .card-title,
+    .semester .card-title, .htmlcss .card-title, .webdev .card-title,
+    .mysql .card-title, .cpp .card-title { color:#fff; }
 
-    .library   .card-banner { background: var(--c7); }
-    .library   .card-tag    { background: rgba(0,212,170,0.15); color: var(--c7); }
-    .library   .card-title  { color: #fff; }
-    .library   .read-more   { color: var(--c7); }
-    .library:hover          { box-shadow: 0 20px 40px rgba(0,212,170,0.15); }
-
-    .semester  .card-banner { background: var(--c8); }
-    .semester  .card-tag    { background: rgba(255,110,180,0.15); color: var(--c8); }
-    .semester  .card-title  { color: #fff; }
-    .semester  .read-more   { color: var(--c8); }
-    .semester:hover         { box-shadow: 0 20px 40px rgba(255,110,180,0.15); }
-
-    .htmlcss   .card-banner { background: var(--c2); }
-    .htmlcss   .card-tag    { background: rgba(255,217,61,0.15); color: var(--c2); }
-    .htmlcss   .card-title  { color: #fff; }
-    .htmlcss   .read-more   { color: var(--c2); }
-    .htmlcss:hover          { box-shadow: 0 20px 40px rgba(255,217,61,0.15); }
-
-    .webdev    .card-banner { background: var(--c3); }
-    .webdev    .card-tag    { background: rgba(107,203,119,0.15); color: var(--c3); }
-    .webdev    .card-title  { color: #fff; }
-    .webdev    .read-more   { color: var(--c3); }
-    .webdev:hover           { box-shadow: 0 20px 40px rgba(107,203,119,0.15); }
-
-    .mysql     .card-banner { background: var(--c1); }
-    .mysql     .card-tag    { background: rgba(255,107,107,0.15); color: var(--c1); }
-    .mysql     .card-title  { color: #fff; }
-    .mysql     .read-more   { color: var(--c1); }
-    .mysql:hover            { box-shadow: 0 20px 40px rgba(255,107,107,0.15); }
-
-    .cpp       .card-banner { background: var(--c5); }
-    .cpp       .card-tag    { background: rgba(199,125,255,0.15); color: var(--c5); }
-    .cpp       .card-title  { color: #fff; }
-    .cpp       .read-more   { color: var(--c5); }
-    .cpp:hover              { box-shadow: 0 20px 40px rgba(199,125,255,0.15); }
-
-    /* Featured card left-side color stripe */
-    .blog-card.featured.uet { border-left: 5px solid var(--c4); }
-
-    /* MODAL */
+    /* ===== MODAL ===== */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
+      display: none; position:fixed; inset:0;
       background: rgba(0,0,0,0.85);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(4px);
+      z-index:999; align-items:center; justify-content:center;
+      padding:20px; backdrop-filter:blur(8px);
     }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open { display:flex; }
     .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      max-width: 700px;
-      width: 100%;
-      max-height: 88vh;
-      overflow-y: auto;
-      padding: 40px;
-      position: relative;
-      animation: modalIn 0.3s ease;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:20px; max-width:700px; width:100%;
+      max-height:88vh; overflow-y:auto; padding:40px;
+      position:relative;
+      animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
-    @keyframes modalIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
-    }
+    @keyframes modalIn { from{transform:scale(0.88) translateY(30px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+
+    /* Modal close button */
     .modal-close {
-      position: absolute;
-      top: 16px; right: 20px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 18px;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center;
+      position:absolute; top:16px; right:20px;
+      background:rgba(255,255,255,0.06); border:1px solid var(--border);
+      color:var(--muted); font-size:18px;
+      width:34px; height:34px; border-radius:50%; cursor:pointer;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      display:flex; align-items:center; justify-content:center;
     }
-    .modal-close:hover { color: white; background: rgba(255,255,255,0.12); }
-    .modal-tag {
-      display: inline-block;
-      padding: 4px 14px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      margin-bottom: 20px;
-      line-height: 1.3;
-    }
-    .modal-img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 24px;
-      max-height: 280px;
-      object-fit: cover;
-    }
-    .modal-content { color: #ccc; font-size: 15px; line-height: 1.85; }
-    .modal-content p { margin-bottom: 12px; }
-    .modal-content h3 {
-      color: white;
-      font-size: 18px;
-      margin: 28px 0 12px;
-      font-family: 'Playfair Display', serif;
-    }
-    .modal-content ul { padding-left: 20px; margin: 10px 0; }
-    .modal-content ul li { margin-bottom: 9px; }
-    .modal-content code {
-      background: rgba(255,255,255,0.07);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 13px;
-      color: #ffd93d;
-      font-family: monospace;
-    }
+    .modal-close:hover { color:white; background:rgba(255,255,255,0.12); transform:rotate(90deg) scale(1.1); }
+
+    .modal-tag { display:inline-block; padding:4px 14px; border-radius:12px; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; }
+    .modal h2 { font-family:'Playfair Display',serif; font-size:28px; margin-bottom:20px; line-height:1.3; }
+    .modal-img { width:100%; border-radius:12px; margin-bottom:24px; max-height:280px; object-fit:cover; transition:transform 0.4s ease; }
+    .modal-img:hover { transform:scale(1.01); }
+    .modal-content { color:#ccc; font-size:15px; line-height:1.85; }
+    .modal-content p { margin-bottom:12px; }
+    .modal-content h3 { color:white; font-size:18px; margin:28px 0 12px; font-family:'Playfair Display',serif; }
+    .modal-content ul { padding-left:20px; margin:10px 0; }
+    .modal-content ul li { margin-bottom:9px; transition:color 0.2s; }
+    .modal-content ul li:hover { color:white; }
+    .modal-content code { background:rgba(255,255,255,.07); padding:2px 8px; border-radius:4px; font-size:13px; color:#ffd93d; font-family:monospace; }
     .modal-content pre {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
-      overflow-x: auto;
-      margin: 16px 0;
-      font-size: 13px;
-      line-height: 1.6;
-      font-family: monospace;
+      background:rgba(255,255,255,.05); border:1px solid var(--border);
+      border-radius:10px; padding:20px; overflow-x:auto;
+      margin:16px 0; font-size:13px; line-height:1.6; font-family:monospace;
+      position: relative;
     }
-    .subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .subject-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
     .subject-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
+      background:rgba(255,255,255,.04); border:1px solid var(--border);
+      border-radius:10px; padding:14px; text-align:center;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s;
     }
-    .subject-card .subj-icon { font-size: 24px; margin-bottom: 6px; }
-    .subject-card .subj-name { font-size: 13px; font-weight: 600; color: white; }
-    .subject-card .subj-desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .subject-card:hover { transform:translateY(-4px) scale(1.03); border-color:rgba(255,255,255,0.15); }
+    .subject-card .subj-icon { font-size:24px; margin-bottom:6px; }
+    .subject-card .subj-name { font-size:13px; font-weight:600; color:white; }
+    .subject-card .subj-desc { font-size:11px; color:var(--muted); margin-top:4px; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ===== FLOATING ORBS ===== */
+    .orb {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 0;
+      animation: orbFloat linear infinite;
+      opacity: 0;
+    }
+    @keyframes orbFloat {
+      0%   { transform: translateY(110vh) scale(0.5); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+    }
 
     footer {
-      text-align: center;
-      padding: 30px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border);
+      text-align:center; padding:30px; color:var(--muted);
+      font-size:13px; border-top:1px solid var(--border);
+      position:relative; z-index:1;
+      animation: fadeUp 0.6s 1s ease both; opacity:0;
     }
 
-    @media (max-width: 768px) {
-      nav { gap: 20px; padding: 16px 20px; }
-      .blog-grid { grid-template-columns: 1fr; padding: 0 20px 60px; }
-      .blog-card.featured { grid-template-columns: 1fr; }
-      .blog-card.featured .card-img { height: 200px; border-radius: 0; }
-      .blog-card.featured .card-body { padding: 24px; }
-      .blog-card.featured .card-title { font-size: 22px; }
-      .filters { padding: 10px 20px 30px; }
-      .modal { padding: 24px; }
-      .subject-grid { grid-template-columns: 1fr; }
-      .section-divider { padding: 0 20px; }
+    @media (max-width:768px) {
+      nav{gap:20px;padding:16px 20px}
+      .blog-grid{grid-template-columns:1fr;padding:0 20px 60px}
+      .blog-card.featured{grid-template-columns:1fr}
+      .blog-card.featured .card-img{height:200px;border-radius:0}
+      .blog-card.featured .card-body{padding:24px}
+      .blog-card.featured .card-title{font-size:22px}
+      .filters{padding:10px 20px 30px}
+      .modal{padding:24px}
+      .subject-grid{grid-template-columns:1fr}
+      .section-divider{padding:0 20px}
+      .cursor-glow{display:none}
     }
   </style>
 </head>
 <body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader">
+    <div class="loader-ring"></div>
+    <div class="loader-text">Loading...</div>
+  </div>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- PARTICLES -->
+  <canvas id="particle-canvas"></canvas>
 
   <nav>
     <a href="index.html">Home</a>
@@ -423,15 +379,15 @@
   </div>
 
   <div class="filters">
-    <button class="tag-btn active" onclick="filterPosts('all', this)">All Posts</button>
-    <button class="tag-btn" onclick="filterPosts('uet', this)">UET Life</button>
-    <button class="tag-btn" onclick="filterPosts('hostel', this)">Hostel</button>
-    <button class="tag-btn" onclick="filterPosts('library', this)">Library</button>
-    <button class="tag-btn" onclick="filterPosts('semester', this)">1st Semester</button>
-    <button class="tag-btn" onclick="filterPosts('htmlcss', this)">HTML &amp; CSS</button>
-    <button class="tag-btn" onclick="filterPosts('webdev', this)">Web Dev</button>
-    <button class="tag-btn" onclick="filterPosts('mysql', this)">MySQL</button>
-    <button class="tag-btn" onclick="filterPosts('cpp', this)">Python &amp; ML</button>
+    <button class="tag-btn active" onclick="filterPosts('all',this)">All Posts</button>
+    <button class="tag-btn" onclick="filterPosts('uet',this)">UET Life</button>
+    <button class="tag-btn" onclick="filterPosts('hostel',this)">Hostel</button>
+    <button class="tag-btn" onclick="filterPosts('library',this)">Library</button>
+    <button class="tag-btn" onclick="filterPosts('semester',this)">1st Semester</button>
+    <button class="tag-btn" onclick="filterPosts('htmlcss',this)">HTML &amp; CSS</button>
+    <button class="tag-btn" onclick="filterPosts('webdev',this)">Web Dev</button>
+    <button class="tag-btn" onclick="filterPosts('mysql',this)">MySQL</button>
+    <button class="tag-btn" onclick="filterPosts('cpp',this)">Python &amp; ML</button>
   </div>
 
   <!-- CHAPTER 1 -->
@@ -442,7 +398,6 @@
 
   <div class="blog-grid" id="blogGrid">
 
-    <!-- CARD 1: UET Journey (FEATURED) -->
     <div class="blog-card uet featured" onclick="openModal('uet')">
       <img class="card-img" src="https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80" alt="UET Faisalabad Campus" onerror="this.style.display='none'"/>
       <div class="card-body">
@@ -456,7 +411,6 @@
       </div>
     </div>
 
-    <!-- CARD 2: Campus Overview -->
     <div class="blog-card uet" onclick="openModal('university')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=600&q=80" alt="University Campus Life" onerror="this.style.display='none'"/>
@@ -471,7 +425,6 @@
       </div>
     </div>
 
-    <!-- CARD 3: Hostel -->
     <div class="blog-card hostel" onclick="openModal('hostel')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80" alt="Hostel Room" onerror="this.style.display='none'"/>
@@ -486,7 +439,6 @@
       </div>
     </div>
 
-    <!-- CARD 4: Library -->
     <div class="blog-card library" onclick="openModal('library')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&q=80" alt="University Library" onerror="this.style.display='none'"/>
@@ -501,7 +453,6 @@
       </div>
     </div>
 
-    <!-- CARD 5: 1st Semester -->
     <div class="blog-card semester" onclick="openModal('semester')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80" alt="Student Semester Study" onerror="this.style.display='none'"/>
@@ -526,7 +477,6 @@
 
   <div class="blog-grid" id="blogGrid2">
 
-    <!-- CARD 6: HTML & CSS -->
     <div class="blog-card htmlcss" onclick="openModal('htmlcss')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=600&q=80" alt="HTML and CSS Code" onerror="this.style.display='none'"/>
@@ -541,7 +491,6 @@
       </div>
     </div>
 
-    <!-- CARD 7: Web Dev / GitHub -->
     <div class="blog-card webdev" onclick="openModal('webdev')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&q=80" alt="GitHub Web Hosting" onerror="this.style.display='none'"/>
@@ -556,7 +505,6 @@
       </div>
     </div>
 
-    <!-- CARD 8: MySQL -->
     <div class="blog-card mysql" onclick="openModal('mysql')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&q=80" alt="MySQL Database" onerror="this.style.display='none'"/>
@@ -571,7 +519,6 @@
       </div>
     </div>
 
-    <!-- CARD 9: Python & ML -->
     <div class="blog-card cpp" onclick="openModal('cpp')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&q=80" alt="Python Machine Learning" onerror="this.style.display='none'"/>
@@ -591,368 +538,129 @@
   <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal" id="modalBox">
-      <button class="modal-close" onclick="closeModalDirect()">x</button>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
       <div id="modalContent"></div>
     </div>
   </div>
 
-  <footer>
-    &copy; 2025 Shakeel Ahmad &mdash; Built with HTML &amp; CSS
-  </footer>
+  <footer>&copy; 2025 Shakeel Ahmad &mdash; Built with HTML &amp; CSS</footer>
 
   <script>
-    const posts = {
-      uet: {
-        tag: 'UET Life',
-        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
-        title: 'My Journey to UET Lahore — Faisalabad Campus',
-        img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=700&q=80',
-        content: `
-          <p>Getting into <strong>University of Engineering &amp; Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now studying at the Faisalabad Campus.</p>
-          <h3>My Educational Background</h3>
-          <ul>
-            <li>Matric from Govt. High School, Jhang City</li>
-            <li>FSc Pre-Engineering from Faran Model College, Jhang</li>
-            <li>Now studying Engineering at UET Lahore, Faisalabad Campus</li>
-          </ul>
-          <h3>Why Engineering?</h3>
-          <p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p>
-          <h3>The Entry Test Journey</h3>
-          <p>Getting into UET requires passing a competitive entry test — MDCAT/ECAT. I prepared hard after FSc, focused on Physics, Mathematics, and Chemistry, and Alhamdulillah I made it.</p>
-          <h3>What I Am Learning Now</h3>
-          <ul>
-            <li>Programming Fundamentals (python)</li>
-            <li>Applied Physics</li>
-            <li>Calculus and Discrete Math</li>
-            <li>Application of AICT</li>
-            <li>Mualimul Quran</li>
-          </ul>
-          <p>UET is challenging but every single day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is absolutely worth it!</p>
-        `
-      },
-      university: {
-        tag: 'University',
-        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
-        title: 'Life at UET Faisalabad Campus — A Complete Overview',
-        img: 'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=700&q=80',
-        content: `
-          <p><strong>University of Engineering &amp; Technology (UET) Lahore, Faisalabad Campus</strong> is one of the most prestigious engineering universities in Pakistan.</p>
-          <h3>Location and Campus</h3>
-          <p>The campus is located in Faisalabad — Pakistan's third largest city and the textile capital. The campus has modern buildings, well-equipped labs, and a peaceful academic environment.</p>
-          <h3>Facilities on Campus</h3>
-          <ul>
-            <li>Modern Computer Labs with latest equipment</li>
-            <li>Physics, Chemistry and Engineering Labs</li>
-            <li>Central Library with thousands of books</li>
-            <li>Student Hostels for boys</li>
-            <li>Canteen and dining area</li>
-            <li>Sports ground and recreational areas</li>
-            <li>Masjid on campus</li>
-          </ul>
-          <h3>Programs Offered</h3>
-          <ul>
-            <li>BS Computer Science</li>
-            <li>BS Electrical Engineering</li>
-            <li>BS Civil Engineering</li>
-            <li>BS Mechanical Engineering</li>
-            <li>BS Software Engineering</li>
-          </ul>
-          <p>If you are a student dreaming of engineering — UET is the place to be. Work hard in FSc, prepare well for the entry test, and Inshallah you will get here!</p>
-        `
-      },
-      hostel: {
-        tag: 'Hostel Life',
-        tagColor: 'background:rgba(255,154,60,0.15);color:#ff9a3c',
-        title: 'My Hostel Experience at UET — Living Away From Home',
-        img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80',
-        content: `
-          <p>Coming to UET meant leaving home for the first time. Moving into the university hostel was a completely new experience — exciting, challenging, and full of memories.</p>
-          <h3>Daily Hostel Routine</h3>
-          <ul>
-            <li>Wake up early for Fajr and morning classes</li>
-            <li>Breakfast at the hostel dining area</li>
-            <li>Attend lectures from 8 AM to 2 PM</li>
-            <li>Rest after lunch</li>
-            <li>Study time from evening till night</li>
-            <li>Night study sessions before exams</li>
-          </ul>
-          <h3>Best Things About Hostel Life</h3>
-          <ul>
-            <li>Independence and self-management</li>
-            <li>Strong friendships and bonding</li>
-            <li>Learning to manage your own life</li>
-            <li>Group study sessions that actually work</li>
-            <li>Being close to campus — no daily commute!</li>
-          </ul>
-          <h3>Challenges of Hostel Life</h3>
-          <ul>
-            <li>Missing home and family food</li>
-            <li>Managing your own laundry and room</li>
-            <li>Adjusting to different sleeping schedules of roommates</li>
-          </ul>
-          <p>Overall, hostel life has made me more mature, responsible, and independent. Every new student should experience it at least once!</p>
-        `
-      },
-      library: {
-        tag: 'Library',
-        tagColor: 'background:rgba(0,212,170,0.15);color:#00d4aa',
-        title: 'UET Library — My Favourite Place on Campus',
-        img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=700&q=80',
-        content: `
-          <p>The <strong>UET Faisalabad Campus Library</strong> is one of my favourite places on campus. Whenever I need to study seriously — the library is my first destination.</p>
-          <h3>What the Library Offers</h3>
-          <ul>
-            <li>Thousands of engineering and science textbooks</li>
-            <li>Reference books for all semesters and subjects</li>
-            <li>Past papers and exam preparation resources</li>
-            <li>Quiet reading and study zones</li>
-            <li>Digital resources and e-books access</li>
-          </ul>
-          <h3>Books I Use Most</h3>
-          <ul>
-            <li><strong>Calculus</strong> — Thomas Calculus (12th Edition)</li>
-            <li><strong>Programming</strong> — C++ by Deitel &amp; Deitel</li>
-            <li><strong>Physics</strong> — Halliday, Resnick &amp; Krane</li>
-            <li><strong>Discrete Math</strong> — Kenneth Rosen</li>
-          </ul>
-          <h3>My Library Tips</h3>
-          <ul>
-            <li>Visit the library before exams — not just during exams</li>
-            <li>Borrow books early before they run out</li>
-            <li>Make it a daily habit, even for 30 minutes</li>
-            <li>Use quiet zones for deep focus work</li>
-          </ul>
-          <p>The library is a student's best friend. Knowledge is free here — use it every single day!</p>
-        `
-      },
-      semester: {
-        tag: '1st Semester',
-        tagColor: 'background:rgba(255,110,180,0.15);color:#ff6eb4',
-        title: 'My First Semester Journey at UET — Subjects, Struggles and Success',
-        img: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&q=80',
-        content: `
-          <p>My first semester at UET Faisalabad was one of the most challenging and rewarding experiences of my life. Six subjects, new friends, a new city, and a whole new world of engineering.</p>
-          <h3>My 1st Semester Subjects</h3>
-          <div class="subject-grid">
-            <div class="subject-card">
-              <div class="subj-icon">&#x1F4D0;</div>
-              <div class="subj-name">Calculus</div>
-              <div class="subj-desc">Limits, Derivatives, Integration</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">&#x1F4BB;</div>
-              <div class="subj-name">Programming Fundamentals</div>
-              <div class="subj-desc">C++ Basics, Logic Building</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">&#x26A1;</div>
-              <div class="subj-name">Applied Physics</div>
-              <div class="subj-desc">Mechanics, Waves, Electricity</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">&#x1F4D6;</div>
-              <div class="subj-name">Mualimul Quran</div>
-              <div class="subj-desc">Quran Recitation and Tajweed</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">&#x1F5A5;</div>
-              <div class="subj-name">Application of AICT</div>
-              <div class="subj-desc">Computer Skills and IT Tools</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">&#x1F522;</div>
-              <div class="subj-name">Discrete Mathematics</div>
-              <div class="subj-desc">Logic, Sets, Graph Theory</div>
-            </div>
-          </div>
-          <h3>Lessons Learned in 1st Semester</h3>
-          <ul>
-            <li>Consistency beats last-minute cramming every time</li>
-            <li>Ask questions — professors are there to help you</li>
-            <li>Form study groups with serious classmates</li>
-            <li>Use the library regularly, not just before exams</li>
-            <li>Take care of your health — sleep and eat properly</li>
-            <li>Balance academic work with spiritual and mental peace</li>
-          </ul>
-          <p>My first semester was tough, but Alhamdulillah I survived it and grew stronger. To every new student entering UET — believe in yourself, work hard, and never give up!</p>
-        `
-      },
-      htmlcss: {
-        tag: 'HTML and CSS',
-        tagColor: 'background:rgba(255,217,61,0.15);color:#ffd93d',
-        title: 'Build Your First Website with HTML and CSS',
-        img: 'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=700&q=80',
-        content: `
-          <p><strong>HTML</strong> (HyperText Markup Language) gives structure to a webpage. <strong>CSS</strong> (Cascading Style Sheets) makes it look beautiful. I started learning this during my first semester — and it changed everything!</p>
-          <h3>Basic HTML Structure</h3>
-          <pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;My Website&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Hello World!&lt;/h1&gt;
-    &lt;p&gt;This is my first website.&lt;/p&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</pre>
-          <h3>Adding CSS Style</h3>
-          <pre>body {
-  background-color: #0a0a0f;
-  font-family: sans-serif;
-}
-h1 {
-  color: #4d96ff;
-  text-align: center;
-}</pre>
-          <h3>Key HTML Tags to Know</h3>
-          <ul>
-            <li><code>&lt;h1&gt; to &lt;h6&gt;</code> — Headings</li>
-            <li><code>&lt;p&gt;</code> — Paragraph</li>
-            <li><code>&lt;a&gt;</code> — Links</li>
-            <li><code>&lt;img&gt;</code> — Images</li>
-            <li><code>&lt;nav&gt;</code> — Navigation bar</li>
-            <li><code>&lt;div&gt;</code> — Container blocks</li>
-          </ul>
-          <p>I built this entire portfolio website using only HTML and CSS. You can too — just start with a simple page!</p>
-        `
-      },
-      webdev: {
-        tag: 'Web Dev',
-        tagColor: 'background:rgba(107,203,119,0.15);color:#6bcb77',
-        title: 'How to Host Your Website Free on GitHub Pages',
-        img: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=700&q=80',
-        content: `
-          <p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying a single rupee!</p>
-          <h3>Step-by-Step Guide</h3>
-          <ul>
-            <li>Create a free account at <code>github.com</code></li>
-            <li>Create a new repository named <code>yourusername.github.io</code></li>
-            <li>Upload your HTML and CSS files</li>
-            <li>Go to Settings then Pages then Enable GitHub Pages</li>
-            <li>Your site is live at <code>yourusername.github.io</code></li>
-          </ul>
-          <h3>My Own Experience</h3>
-          <p>I am currently hosting my portfolio at <code>shakeel896.github.io</code> using this exact method. It is fast, free, and very easy to update whenever I add new content.</p>
-          <h3>Pro Tips</h3>
-          <ul>
-            <li>Always name your main file <code>index.html</code></li>
-            <li>Keep all files in the same folder</li>
-            <li>Commit changes to see them live within minutes</li>
-            <li>Use a custom domain if you want a professional URL</li>
-          </ul>
-        `
-      },
-      mysql: {
-        tag: 'MySQL',
-        tagColor: 'background:rgba(255,107,107,0.15);color:#ff6b6b',
-        title: 'Introduction to MySQL — Databases Explained Simply',
-        img: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=700&q=80',
-        content: `
-          <p>MySQL is a <strong>database management system (DBMS)</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development worldwide.</p>
-          <h3>Why Use MySQL?</h3>
-          <ul>
-            <li>Easy to learn and use</li>
-            <li>Fast performance even with large data</li>
-            <li>Open-source and completely free</li>
-            <li>Works perfectly with PHP and web applications</li>
-            <li>Secure, stable, and reliable</li>
-          </ul>
-          <h3>Creating Your First Table</h3>
-          <pre>CREATE TABLE students (
-  id    INT,
-  name  VARCHAR(50),
-  marks INT
-);</pre>
-          <h3>Inserting Data</h3>
-          <pre>INSERT INTO students VALUES (1, 'Shakeel', 95);</pre>
-          <h3>Viewing Your Data</h3>
-          <pre>SELECT * FROM students;</pre>
-          <h3>Filtering Data</h3>
-          <pre>SELECT name FROM students WHERE marks > 80;</pre>
-          <p>MySQL is a must-learn skill for any web developer or software engineer. It pairs perfectly with HTML, CSS, and PHP to build full dynamic websites!</p>
-        `
-      },
-      cpp: {
-        tag: 'Python and ML',
-        tagColor: 'background:rgba(199,125,255,0.15);color:#c77dff',
-        title: 'Getting Started with Python and Machine Learning',
-        img: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=700&q=80',
-        content: `
-          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>. After learning HTML, CSS, and MySQL, Python was my next big step.</p>
-          <h3>Your First Python Program</h3>
-          <pre>print("Hello, World!")
-name = "Shakeel"
-age = 20
-print("My name is", name, "and I am", age, "years old.")</pre>
-          <h3>Key Python Libraries for ML</h3>
-          <ul>
-            <li><code>NumPy</code> — Mathematical operations on arrays</li>
-            <li><code>Pandas</code> — Data handling and analysis</li>
-            <li><code>Matplotlib</code> — Data visualization and graphs</li>
-            <li><code>Scikit-learn</code> — Machine Learning models</li>
-            <li><code>TensorFlow</code> — Deep Learning and Neural Networks</li>
-          </ul>
-          <h3>A Simple ML Example</h3>
-          <pre>from sklearn.linear_model import LinearRegression
-model = LinearRegression()
-model.fit(X_train, y_train)
-predictions = model.predict(X_test)</pre>
-          <p>Python and Machine Learning are the future of technology. As an engineering student, mastering these skills will open doors to AI, Data Science, and countless career opportunities!</p>
-        `
+    // ===== PAGE LOADER =====
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('page-loader').classList.add('hidden'), 700);
+    });
+
+    // ===== CURSOR GLOW =====
+    const cg = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      cg.style.left = e.clientX + 'px';
+      cg.style.top  = e.clientY + 'px';
+    });
+
+    // ===== PARTICLES =====
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const pColors = ['rgba(77,150,255,','rgba(199,125,255,','rgba(107,203,119,','rgba(255,217,61,','rgba(0,212,170,'];
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(init) {
+        this.x = Math.random() * W;
+        this.y = init ? Math.random() * H : H + 10;
+        this.size = Math.random() * 1.4 + 0.3;
+        this.vy = -(Math.random() * 0.35 + 0.1);
+        this.vx = (Math.random() - 0.5) * 0.18;
+        this.color = pColors[Math.floor(Math.random() * pColors.length)];
+        this.alpha = Math.random() * 0.45 + 0.1;
+        this.life = 0; this.maxLife = Math.random() * 280 + 180;
       }
+      update() { this.x+=this.vx; this.y+=this.vy; this.life++; if(this.y<-10||this.life>this.maxLife) this.reset(); }
+      draw() {
+        const fade = this.life<30?this.life/30:this.life>this.maxLife-30?(this.maxLife-this.life)/30:1;
+        ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fillStyle = this.color+(this.alpha*fade)+')'; ctx.fill();
+      }
+    }
+    for(let i=0;i<70;i++) particles.push(new Particle());
+    (function loop(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw()}); requestAnimationFrame(loop); })();
+
+    // ===== SCROLL REVEAL — CARDS =====
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if(entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('in-view'), i * 100);
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.blog-card').forEach(c => cardObserver.observe(c));
+
+    // ===== SCROLL REVEAL — DIVIDERS =====
+    const dividerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); dividerObserver.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.section-divider').forEach(d => dividerObserver.observe(d));
+
+    // ===== MODAL DATA =====
+    const posts = {
+      uet: { tag:'UET Life', tagColor:'background:rgba(77,150,255,0.15);color:#4d96ff', title:'My Journey to UET Lahore — Faisalabad Campus', img:'https://images.unsplash.com/photo-1562774053-701939374585?w=700&q=80', content:`<p>Getting into <strong>University of Engineering &amp; Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now studying at the Faisalabad Campus.</p><h3>My Educational Background</h3><ul><li>Matric from Govt. High School, Jhang City</li><li>FSc Pre-Engineering from Faran Model College, Jhang</li><li>Now studying Engineering at UET Lahore, Faisalabad Campus</li></ul><h3>Why Engineering?</h3><p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p><h3>The Entry Test Journey</h3><p>Getting into UET requires passing a competitive entry test — ECAT. I prepared hard after FSc, focused on Physics, Mathematics, and Chemistry, and Alhamdulillah I made it.</p><h3>What I Am Learning Now</h3><ul><li>Programming Fundamentals (Python)</li><li>Applied Physics</li><li>Calculus and Discrete Math</li><li>Application of AICT</li><li>Mualimul Quran</li></ul><p>UET is challenging but every single day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is absolutely worth it!</p>` },
+      university: { tag:'University', tagColor:'background:rgba(77,150,255,0.15);color:#4d96ff', title:'Life at UET Faisalabad Campus — A Complete Overview', img:'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=700&q=80', content:`<p><strong>UET Lahore, Faisalabad Campus</strong> is one of the most prestigious engineering universities in Pakistan.</p><h3>Location and Campus</h3><p>The campus is located in Faisalabad — Pakistan's third largest city and the textile capital. The campus has modern buildings, well-equipped labs, and a peaceful academic environment.</p><h3>Facilities on Campus</h3><ul><li>Modern Computer Labs with latest equipment</li><li>Physics, Chemistry and Engineering Labs</li><li>Central Library with thousands of books</li><li>Student Hostels for boys</li><li>Canteen and dining area</li><li>Sports ground and recreational areas</li><li>Masjid on campus</li></ul><h3>Programs Offered</h3><ul><li>BS Computer Science</li><li>BS Electrical Engineering</li><li>BS Civil Engineering</li><li>BS Mechanical Engineering</li><li>BS Software Engineering</li></ul><p>If you are a student dreaming of engineering — UET is the place to be. Work hard in FSc, prepare well for the entry test, and Inshallah you will get here!</p>` },
+      hostel: { tag:'Hostel Life', tagColor:'background:rgba(255,154,60,0.15);color:#ff9a3c', title:'My Hostel Experience at UET — Living Away From Home', img:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80', content:`<p>Coming to UET meant leaving home for the first time. Moving into the university hostel was a completely new experience — exciting, challenging, and full of memories.</p><h3>Daily Hostel Routine</h3><ul><li>Wake up early for Fajr and morning classes</li><li>Breakfast at the hostel dining area</li><li>Attend lectures from 8 AM to 2 PM</li><li>Rest after lunch</li><li>Study time from evening till night</li><li>Night study sessions before exams</li></ul><h3>Best Things About Hostel Life</h3><ul><li>Independence and self-management</li><li>Strong friendships and bonding</li><li>Learning to manage your own life</li><li>Group study sessions that actually work</li><li>Being close to campus — no daily commute!</li></ul><h3>Challenges</h3><ul><li>Missing home and family food</li><li>Managing your own laundry and room</li><li>Adjusting to different sleeping schedules of roommates</li></ul><p>Overall, hostel life has made me more mature, responsible, and independent. Every new student should experience it at least once!</p>` },
+      library: { tag:'Library', tagColor:'background:rgba(0,212,170,0.15);color:#00d4aa', title:'UET Library — My Favourite Place on Campus', img:'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=700&q=80', content:`<p>The <strong>UET Faisalabad Campus Library</strong> is one of my favourite places on campus. Whenever I need to study seriously — the library is my first destination.</p><h3>What the Library Offers</h3><ul><li>Thousands of engineering and science textbooks</li><li>Reference books for all semesters and subjects</li><li>Past papers and exam preparation resources</li><li>Quiet reading and study zones</li><li>Digital resources and e-books access</li></ul><h3>Books I Use Most</h3><ul><li><strong>Calculus</strong> — Thomas Calculus (12th Edition)</li><li><strong>Programming</strong> — C++ by Deitel &amp; Deitel</li><li><strong>Physics</strong> — Halliday, Resnick &amp; Krane</li><li><strong>Discrete Math</strong> — Kenneth Rosen</li></ul><h3>My Library Tips</h3><ul><li>Visit the library before exams — not just during exams</li><li>Borrow books early before they run out</li><li>Make it a daily habit, even for 30 minutes</li><li>Use quiet zones for deep focus work</li></ul><p>The library is a student's best friend. Knowledge is free here — use it every single day!</p>` },
+      semester: { tag:'1st Semester', tagColor:'background:rgba(255,110,180,0.15);color:#ff6eb4', title:'My First Semester Journey at UET', img:'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&q=80', content:`<p>My first semester at UET Faisalabad was one of the most challenging and rewarding experiences of my life.</p><h3>My 1st Semester Subjects</h3><div class="subject-grid"><div class="subject-card"><div class="subj-icon">📐</div><div class="subj-name">Calculus</div><div class="subj-desc">Limits, Derivatives, Integration</div></div><div class="subject-card"><div class="subj-icon">💻</div><div class="subj-name">Programming Fundamentals</div><div class="subj-desc">C++ Basics, Logic Building</div></div><div class="subject-card"><div class="subj-icon">⚡</div><div class="subj-name">Applied Physics</div><div class="subj-desc">Mechanics, Waves, Electricity</div></div><div class="subject-card"><div class="subj-icon">📖</div><div class="subj-name">Mualimul Quran</div><div class="subj-desc">Quran Recitation and Tajweed</div></div><div class="subject-card"><div class="subj-icon">🖥</div><div class="subj-name">Application of AICT</div><div class="subj-desc">Computer Skills and IT Tools</div></div><div class="subject-card"><div class="subj-icon">🔢</div><div class="subj-name">Discrete Mathematics</div><div class="subj-desc">Logic, Sets, Graph Theory</div></div></div><h3>Lessons Learned</h3><ul><li>Consistency beats last-minute cramming every time</li><li>Ask questions — professors are there to help you</li><li>Form study groups with serious classmates</li><li>Use the library regularly, not just before exams</li><li>Take care of your health — sleep and eat properly</li></ul><p>My first semester was tough, but Alhamdulillah I survived it and grew stronger. To every new student entering UET — believe in yourself, work hard, and never give up!</p>` },
+      htmlcss: { tag:'HTML and CSS', tagColor:'background:rgba(255,217,61,0.15);color:#ffd93d', title:'Build Your First Website with HTML &amp; CSS', img:'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=700&q=80', content:`<p><strong>HTML</strong> gives structure to a webpage. <strong>CSS</strong> makes it look beautiful. I started learning this during my first semester — and it changed everything!</p><h3>Basic HTML Structure</h3><pre>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;My Website&lt;/title&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;h1&gt;Hello World!&lt;/h1&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</pre><h3>Adding CSS Style</h3><pre>body {\n  background: #0a0a0f;\n  font-family: sans-serif;\n}\nh1 {\n  color: #4d96ff;\n  text-align: center;\n}</pre><h3>Key HTML Tags</h3><ul><li><code>&lt;h1&gt; to &lt;h6&gt;</code> — Headings</li><li><code>&lt;p&gt;</code> — Paragraph</li><li><code>&lt;a&gt;</code> — Links</li><li><code>&lt;img&gt;</code> — Images</li><li><code>&lt;div&gt;</code> — Container blocks</li></ul><p>I built this entire portfolio website using only HTML and CSS. You can too — just start with a simple page!</p>` },
+      webdev: { tag:'Web Dev', tagColor:'background:rgba(107,203,119,0.15);color:#6bcb77', title:'How to Host Your Website Free on GitHub Pages', img:'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=700&q=80', content:`<p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying a single rupee!</p><h3>Step-by-Step Guide</h3><ul><li>Create a free account at <code>github.com</code></li><li>Create a new repository named <code>yourusername.github.io</code></li><li>Upload your HTML and CSS files</li><li>Go to Settings → Pages → Enable GitHub Pages</li><li>Your site is live at <code>yourusername.github.io</code></li></ul><h3>My Own Experience</h3><p>I am currently hosting my portfolio at <code>shakeel896.github.io</code> using this exact method. It is fast, free, and very easy to update.</p><h3>Pro Tips</h3><ul><li>Always name your main file <code>index.html</code></li><li>Keep all files in the same folder</li><li>Commit changes to see them live within minutes</li></ul>` },
+      mysql: { tag:'MySQL', tagColor:'background:rgba(255,107,107,0.15);color:#ff6b6b', title:'Introduction to MySQL — Databases Explained Simply', img:'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=700&q=80', content:`<p>MySQL is a <strong>database management system</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development worldwide.</p><h3>Why Use MySQL?</h3><ul><li>Easy to learn and use</li><li>Fast performance even with large data</li><li>Open-source and free</li><li>Works perfectly with PHP and web apps</li></ul><h3>Creating Your First Table</h3><pre>CREATE TABLE students (\n  id    INT,\n  name  VARCHAR(50),\n  marks INT\n);</pre><h3>Inserting Data</h3><pre>INSERT INTO students VALUES (1, 'Shakeel', 95);</pre><h3>Viewing Data</h3><pre>SELECT * FROM students;</pre><h3>Filtering Data</h3><pre>SELECT name FROM students WHERE marks > 80;</pre><p>MySQL is a must-learn skill for any web developer or software engineer!</p>` },
+      cpp: { tag:'Python and ML', tagColor:'background:rgba(199,125,255,0.15);color:#c77dff', title:'Getting Started with Python &amp; Machine Learning', img:'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=700&q=80', content:`<p><strong>Python</strong> is the world's most popular language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>.</p><h3>Your First Python Program</h3><pre>print("Hello, World!")\nname = "Shakeel"\nage = 20\nprint("My name is", name, "and I am", age, "years old.")</pre><h3>Key Python Libraries for ML</h3><ul><li><code>NumPy</code> — Mathematical operations on arrays</li><li><code>Pandas</code> — Data handling and analysis</li><li><code>Matplotlib</code> — Data visualization</li><li><code>Scikit-learn</code> — Machine Learning models</li><li><code>TensorFlow</code> — Deep Learning</li></ul><h3>A Simple ML Example</h3><pre>from sklearn.linear_model import LinearRegression\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\npredictions = model.predict(X_test)</pre><p>Python and Machine Learning are the future of technology. As an engineering student, mastering these skills will open countless doors!</p>` }
     };
 
     function openModal(key) {
-      const post = posts[key];
-      if (!post) return;
+      const post = posts[key]; if(!post) return;
       const imgHtml = post.img ? `<img class="modal-img" src="${post.img}" alt="${post.title}" onerror="this.style.display='none'"/>` : '';
       document.getElementById('modalContent').innerHTML = `
         <span class="modal-tag" style="${post.tagColor}">${post.tag}</span>
-        <h2>${post.title}</h2>
-        ${imgHtml}
-        <div class="modal-content">${post.content}</div>
-      `;
+        <h2>${post.title}</h2>${imgHtml}
+        <div class="modal-content">${post.content}</div>`;
       document.getElementById('modalOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
-    function closeModal(e) {
-      if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
-    }
-
-    function closeModalDirect() {
-      document.getElementById('modalOverlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
+    function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+    function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
 
     function filterPosts(category, btn) {
       document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Show/hide section dividers
       const d1 = document.getElementById('divider-journey');
       const d2 = document.getElementById('divider-tech');
+      const life = ['uet','hostel','library','semester'];
+      const tech = ['htmlcss','webdev','mysql','cpp'];
 
-      const lifeCategories = ['uet', 'hostel', 'library', 'semester'];
-      const techCategories = ['htmlcss', 'webdev', 'mysql', 'cpp'];
-
-      document.querySelectorAll('.blog-card').forEach(card => {
-        const matches = category === 'all' || card.classList.contains(category);
-        card.style.display = matches ? '' : 'none';
+      document.querySelectorAll('.blog-card').forEach((card, i) => {
+        const matches = category==='all' || card.classList.contains(category);
+        if(matches) {
+          card.style.display = '';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => { card.style.opacity='1'; card.style.transform='translateY(0)'; card.style.transition='opacity 0.4s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)'; }, i * 60);
+        } else {
+          card.style.display = 'none';
+        }
       });
 
-      if (category === 'all') {
-        d1.style.display = ''; d2.style.display = '';
-      } else if (lifeCategories.includes(category)) {
-        d1.style.display = ''; d2.style.display = 'none';
-      } else if (techCategories.includes(category)) {
-        d1.style.display = 'none'; d2.style.display = '';
-      }
+      if(category==='all'){d1.style.display='';d2.style.display='';}
+      else if(life.includes(category)){d1.style.display='';d2.style.display='none';}
+      else if(tech.includes(category)){d1.style.display='none';d2.style.display='';}
     }
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModalDirect();
-    });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
   </script>
 
 </body>
