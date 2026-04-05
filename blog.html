@@ -13,11 +13,14 @@
       --muted: #888;
       --border: #222230;
 
-      --c1: #ff6b6b; /* red - MySQL */
-      --c2: #ffd93d; /* yellow - HTML/CSS */
-      --c3: #6bcb77; /* green - Web Dev */
-      --c4: #4d96ff; /* blue - UET */
-      --c5: #c77dff; /* purple - C++ */
+      --c1: #ff6b6b;
+      --c2: #ffd93d;
+      --c3: #6bcb77;
+      --c4: #4d96ff;
+      --c5: #c77dff;
+      --c6: #ff9a3c;
+      --c7: #00d4aa;
+      --c8: #ff6eb4;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,7 +32,6 @@
       min-height: 100vh;
     }
 
-    /* NAV */
     nav {
       background: #0d0d14;
       padding: 18px 40px;
@@ -53,7 +55,6 @@
     nav a:hover { color: white; }
     nav a.active { color: white; }
 
-    /* HEADER */
     .page-header {
       text-align: center;
       padding: 70px 20px 40px;
@@ -86,7 +87,6 @@
       margin: 0 auto;
     }
 
-    /* FILTER TAGS */
     .filters {
       display: flex;
       justify-content: center;
@@ -111,7 +111,6 @@
       border-color: rgba(255,255,255,0.2);
     }
 
-    /* BLOG GRID */
     .blog-grid {
       max-width: 1200px;
       margin: 0 auto;
@@ -121,7 +120,6 @@
       gap: 28px;
     }
 
-    /* BLOG CARD */
     .blog-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -132,9 +130,8 @@
       animation: fadeUp 0.6s ease forwards;
       opacity: 0;
     }
-    .blog-card:hover {
-      transform: translateY(-6px);
-    }
+    .blog-card:hover { transform: translateY(-6px); }
+
     @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
     }
@@ -143,13 +140,19 @@
     .blog-card:nth-child(3) { animation-delay: 0.3s; }
     .blog-card:nth-child(4) { animation-delay: 0.4s; }
     .blog-card:nth-child(5) { animation-delay: 0.5s; }
+    .blog-card:nth-child(6) { animation-delay: 0.6s; }
+    .blog-card:nth-child(7) { animation-delay: 0.7s; }
+    .blog-card:nth-child(8) { animation-delay: 0.8s; }
+    .blog-card:nth-child(9) { animation-delay: 0.9s; }
 
-    .card-banner {
-      height: 8px;
+    .card-banner { height: 8px; }
+    .card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
     }
-    .card-body {
-      padding: 28px;
-    }
+    .card-body { padding: 28px; }
 
     .card-tag {
       display: inline-block;
@@ -197,7 +200,7 @@
     }
     .read-more:hover { gap: 8px; }
 
-    /* COLOR THEMES PER TOPIC */
+    /* Color themes */
     .mysql .card-banner { background: var(--c1); }
     .mysql .card-tag { background: rgba(255,107,107,0.15); color: var(--c1); }
     .mysql .card-title { color: #fff; }
@@ -227,6 +230,24 @@
     .cpp .card-title { color: #fff; }
     .cpp .read-more { color: var(--c5); }
     .cpp:hover { box-shadow: 0 20px 40px rgba(199,125,255,0.15); }
+
+    .hostel .card-banner { background: var(--c6); }
+    .hostel .card-tag { background: rgba(255,154,60,0.15); color: var(--c6); }
+    .hostel .card-title { color: #fff; }
+    .hostel .read-more { color: var(--c6); }
+    .hostel:hover { box-shadow: 0 20px 40px rgba(255,154,60,0.15); }
+
+    .library .card-banner { background: var(--c7); }
+    .library .card-tag { background: rgba(0,212,170,0.15); color: var(--c7); }
+    .library .card-title { color: #fff; }
+    .library .read-more { color: var(--c7); }
+    .library:hover { box-shadow: 0 20px 40px rgba(0,212,170,0.15); }
+
+    .semester .card-banner { background: var(--c8); }
+    .semester .card-tag { background: rgba(255,110,180,0.15); color: var(--c8); }
+    .semester .card-title { color: #fff; }
+    .semester .read-more { color: var(--c8); }
+    .semester:hover { box-shadow: 0 20px 40px rgba(255,110,180,0.15); }
 
     /* MODAL */
     .modal-overlay {
@@ -283,6 +304,13 @@
       margin-bottom: 20px;
       line-height: 1.3;
     }
+    .modal-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      max-height: 280px;
+      object-fit: cover;
+    }
     .modal-content {
       color: #ccc;
       font-size: 15px;
@@ -316,6 +344,22 @@
       font-size: 13px;
       line-height: 1.6;
     }
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .subject-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .subject-card .subj-icon { font-size: 24px; margin-bottom: 6px; }
+    .subject-card .subj-name { font-size: 13px; font-weight: 600; color: white; }
+    .subject-card .subj-desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
     footer {
       text-align: center;
@@ -330,6 +374,7 @@
       .blog-grid { grid-template-columns: 1fr; padding: 0 20px 60px; }
       .filters { padding: 10px 20px 30px; }
       .modal { padding: 24px; }
+      .subject-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -345,7 +390,7 @@
   <div class="page-header">
     <div class="badge">✦ My Writings</div>
     <h1>My Blog Posts</h1>
-    <p>Sharing what I learn about technology, engineering, and programming.</p>
+    <p>Sharing what I learn about technology, engineering, and my life at UET.</p>
   </div>
 
   <div class="filters">
@@ -355,6 +400,9 @@
     <button class="tag-btn" onclick="filterPosts('webdev', this)">Web Dev</button>
     <button class="tag-btn" onclick="filterPosts('uet', this)">UET Life</button>
     <button class="tag-btn" onclick="filterPosts('cpp', this)">Python & ML</button>
+    <button class="tag-btn" onclick="filterPosts('hostel', this)">Hostel</button>
+    <button class="tag-btn" onclick="filterPosts('library', this)">Library</button>
+    <button class="tag-btn" onclick="filterPosts('semester', this)">1st Semester</button>
   </div>
 
   <div class="blog-grid" id="blogGrid">
@@ -404,6 +452,7 @@
     <!-- CARD 4: UET -->
     <div class="blog-card uet" onclick="openModal('uet')">
       <div class="card-banner"></div>
+      <img class="card-img" src="https://uet.edu.pk/images/fsd-campus.jpg" alt="UET Faisalabad Campus" onerror="this.style.display='none'"/>
       <div class="card-body">
         <span class="card-tag">🎓 UET Life</span>
         <h2 class="card-title">My Journey to UET Lahore — Faisalabad Campus</h2>
@@ -429,9 +478,66 @@
       </div>
     </div>
 
+    <!-- CARD 6: University -->
+    <div class="blog-card uet" onclick="openModal('university')">
+      <div class="card-banner"></div>
+      <img class="card-img" src="https://uet.edu.pk/images/fsd-campus.jpg" alt="UET Faisalabad Campus" onerror="this.style.display='none'"/>
+      <div class="card-body">
+        <span class="card-tag">🏫 University</span>
+        <h2 class="card-title">Life at UET Faisalabad Campus — A Complete Overview</h2>
+        <p class="card-excerpt">UET Lahore, Faisalabad Campus is one of Pakistan's finest engineering universities. Here is everything you need to know about campus life.</p>
+        <div class="card-meta">
+          <span>📅 2025 · 5 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7: Hostel -->
+    <div class="blog-card hostel" onclick="openModal('hostel')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🏠 Hostel Life</span>
+        <h2 class="card-title">My Hostel Experience at UET — Living Away From Home</h2>
+        <p class="card-excerpt">Living in a university hostel for the first time is a big adventure. From roommates to midnight study sessions — here is my honest experience.</p>
+        <div class="card-meta">
+          <span>📅 2025 · 4 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8: Library -->
+    <div class="blog-card library" onclick="openModal('library')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">📚 Library</span>
+        <h2 class="card-title">UET Library — My Favourite Place on Campus</h2>
+        <p class="card-excerpt">The UET Faisalabad library is a treasure of knowledge. Hundreds of engineering books, quiet study zones, and digital resources — all free for students.</p>
+        <div class="card-meta">
+          <span>📅 2025 · 3 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 9: 1st Semester Journey -->
+    <div class="blog-card semester" onclick="openModal('semester')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🎯 1st Semester</span>
+        <h2 class="card-title">My First Semester Journey at UET — Subjects, Struggles & Success</h2>
+        <p class="card-excerpt">From Calculus to Mualimul Quran — my complete first semester experience at UET Faisalabad. Every subject, every challenge, every lesson learned.</p>
+        <div class="card-meta">
+          <span>📅 2025 · 7 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- MODALS -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal" id="modalBox">
       <button class="modal-close" onclick="closeModalDirect()">✕</button>
@@ -439,7 +545,7 @@
     </div>
   </div>
 
-  <footer>© 2024 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
+  <footer>© 2025 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
 
   <script>
     const posts = {
@@ -447,6 +553,7 @@
         tag: '🗄️ MySQL',
         tagColor: 'background:rgba(255,107,107,0.15);color:#ff6b6b',
         title: 'Introduction to MySQL — Databases Explained Simply',
+        img: '',
         content: `
           <p>MySQL is a <strong>database management system (DBMS)</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development.</p>
           <h3>Why Use MySQL?</h3>
@@ -458,7 +565,6 @@
             <li>Secure and reliable</li>
           </ul>
           <h3>Creating Your First Table</h3>
-          <p>Here is a simple SQL command to create a students table:</p>
           <pre>CREATE TABLE students (
   id    INT,
   name  VARCHAR(50),
@@ -475,6 +581,7 @@
         tag: '🎨 HTML & CSS',
         tagColor: 'background:rgba(255,217,61,0.15);color:#ffd93d',
         title: 'Build Your First Website with HTML & CSS',
+        img: '',
         content: `
           <p><strong>HTML</strong> (HyperText Markup Language) gives structure to a webpage. <strong>CSS</strong> (Cascading Style Sheets) makes it look beautiful.</p>
           <h3>Basic HTML Structure</h3>
@@ -512,6 +619,7 @@ h1 {
         tag: '🌐 Web Dev',
         tagColor: 'background:rgba(107,203,119,0.15);color:#6bcb77',
         title: 'How to Host Your Website Free on GitHub Pages',
+        img: '',
         content: `
           <p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying anything!</p>
           <h3>Step-by-Step Guide</h3>
@@ -536,8 +644,9 @@ h1 {
         tag: '🎓 UET Life',
         tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
         title: 'My Journey to UET Lahore — Faisalabad Campus',
+        img: 'https://uet.edu.pk/images/fsd-campus.jpg',
         content: `
-          <p>Getting into <strong>University of Engineering & Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now in my 2nd semester at the Faisalabad Campus.</p>
+          <p>Getting into <strong>University of Engineering & Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now studying at the Faisalabad Campus.</p>
           <h3>My Background</h3>
           <ul>
             <li>📚 Matric from Govt. High School, Jhang City</li>
@@ -548,10 +657,11 @@ h1 {
           <p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p>
           <h3>What I Am Learning</h3>
           <ul>
-            <li>C++ Programming</li>
+            <li>Programming Fundamentals (C++)</li>
             <li>Applied Physics</li>
-            <li>Calculus & Linear Algebra</li>
-            <li>Web Development (self-learning)</li>
+            <li>Calculus & Discrete Math</li>
+            <li>Application of AICT</li>
+            <li>Mualimul Quran</li>
           </ul>
           <p>UET is challenging but every day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is worth it!</p>
         `
@@ -560,33 +670,13 @@ h1 {
         tag: '🐍 Python & ML',
         tagColor: 'background:rgba(199,125,255,0.15);color:#c77dff',
         title: 'Getting Started with Python & Machine Learning',
+        img: '',
         content: `
-          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>. It is simple to learn and extremely powerful.</p>
+          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>.</p>
           <h3>Your First Python Program</h3>
           <pre>print("Hello, World!")
-
 name = "Shakeel"
 print("My name is", name)</pre>
-          <h3>Python vs Other Languages</h3>
-          <ul>
-            <li>Very easy and clean syntax</li>
-            <li>Huge library support (NumPy, Pandas, TensorFlow)</li>
-            <li>Used in AI, Web Dev, Data Science, and Automation</li>
-            <li>Most in-demand language in the job market</li>
-          </ul>
-          <h3>What is Machine Learning?</h3>
-          <p>Machine Learning is a branch of AI where computers <strong>learn from data</strong> without being explicitly programmed. For example, spam filters, recommendation systems, and face recognition all use ML.</p>
-          <h3>Simple ML Example with Python</h3>
-          <pre>from sklearn.linear_model import LinearRegression
-
-# Training data
-X = [[1], [2], [3], [4]]
-y = [2, 4, 6, 8]
-
-model = LinearRegression()
-model.fit(X, y)
-
-print(model.predict([[5]]))  # Output: [10]</pre>
           <h3>Key Python Libraries for ML</h3>
           <ul>
             <li><code>NumPy</code> — Mathematical operations</li>
@@ -597,14 +687,215 @@ print(model.predict([[5]]))  # Output: [10]</pre>
           </ul>
           <p>Python and Machine Learning are the future of technology. As an engineering student, learning these skills will open endless career opportunities!</p>
         `
+      },
+      university: {
+        tag: '🏫 University',
+        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
+        title: 'Life at UET Faisalabad Campus — A Complete Overview',
+        img: 'https://uet.edu.pk/images/fsd-campus.jpg',
+        content: `
+          <p><strong>University of Engineering & Technology (UET) Lahore, Faisalabad Campus</strong> is one of the most prestigious engineering universities in Pakistan. It is a sub-campus of the main UET Lahore and provides world-class engineering education.</p>
+
+          <h3>📍 Location & Campus</h3>
+          <p>The campus is located in Faisalabad — Pakistan's third largest city and the textile capital of the country. The campus has modern buildings, well-equipped labs, and a peaceful academic environment.</p>
+
+          <h3>🏗️ Facilities on Campus</h3>
+          <ul>
+            <li>🖥️ Computer Labs with modern equipment</li>
+            <li>🔬 Physics, Chemistry and Engineering Labs</li>
+            <li>📚 Central Library with thousands of books</li>
+            <li>🏠 Student Hostels for boys</li>
+            <li>🍽️ Canteen and dining area</li>
+            <li>⚽ Sports ground and recreational areas</li>
+            <li>🕌 Mosque on campus</li>
+          </ul>
+
+          <h3>📖 Programs Offered</h3>
+          <ul>
+            <li>BS Computer Science</li>
+            <li>BS Electrical Engineering</li>
+            <li>BS Civil Engineering</li>
+            <li>BS Mechanical Engineering</li>
+            <li>BS Software Engineering</li>
+          </ul>
+
+          <h3>🌟 Why I Chose UET</h3>
+          <p>UET has a long history of producing excellent engineers and professionals who are working across Pakistan and internationally. The quality of education, the dedicated faculty, and the competitive environment motivate students to give their best every day.</p>
+
+          <h3>👨‍🏫 Faculty & Teaching</h3>
+          <p>The professors at UET are highly qualified and experienced. They teach with passion and always encourage students to think critically and solve real-world problems. I am grateful for every lecture I attend here.</p>
+
+          <p>If you are a student dreaming of engineering — UET is the place to be. Work hard in FSc, prepare well for the entry test, and Inshallah you will get here!</p>
+        `
+      },
+      hostel: {
+        tag: '🏠 Hostel Life',
+        tagColor: 'background:rgba(255,154,60,0.15);color:#ff9a3c',
+        title: 'My Hostel Experience at UET — Living Away From Home',
+        img: '',
+        content: `
+          <p>Coming to UET meant leaving home for the first time. Moving into the university hostel was a completely new experience — exciting, challenging, and full of memories.</p>
+
+          <h3>🏠 The Hostel Building</h3>
+          <p>The UET Faisalabad hostel is a multi-storey building with rooms for students. Each room is shared between two or more students. The rooms are simple but comfortable — enough for studying and resting.</p>
+
+          <h3>🛏️ Daily Hostel Routine</h3>
+          <ul>
+            <li>⏰ Wake up early for Fajr and morning classes</li>
+            <li>🍳 Breakfast at the hostel dining area</li>
+            <li>📚 Attend lectures from 8 AM to 2 PM</li>
+            <li>😴 Rest after lunch</li>
+            <li>📖 Study time from evening till night</li>
+            <li>🌙 Night study sessions before exams</li>
+          </ul>
+
+          <h3>👫 Roommates & Friends</h3>
+          <p>Living with roommates teaches you a lot about patience, cooperation, and sharing. I made some of my best friends in the hostel. We help each other with assignments, study together before exams, and support each other through difficult times.</p>
+
+          <h3>😊 Best Things About Hostel Life</h3>
+          <ul>
+            <li>Independence and self-management</li>
+            <li>Strong friendships and bonding</li>
+            <li>Learning to cook simple meals</li>
+            <li>Group study sessions that actually work</li>
+            <li>Being close to campus — no daily commute!</li>
+          </ul>
+
+          <h3>😅 Challenges of Hostel Life</h3>
+          <ul>
+            <li>Missing home and family food</li>
+            <li>Managing your own laundry and room</li>
+            <li>Adjusting to different sleeping schedules of roommates</li>
+            <li>Staying focused during noisy study hours</li>
+          </ul>
+
+          <p>Overall, hostel life has made me more mature, responsible, and independent. It is a part of university life that I will always remember with a smile. 😊</p>
+        `
+      },
+      library: {
+        tag: '📚 Library',
+        tagColor: 'background:rgba(0,212,170,0.15);color:#00d4aa',
+        title: 'UET Library — My Favourite Place on Campus',
+        img: '',
+        content: `
+          <p>The <strong>UET Faisalabad Campus Library</strong> is one of my favourite places on campus. Whenever I need to study seriously, understand a difficult concept, or find extra resources — the library is my first destination.</p>
+
+          <h3>📖 What the Library Offers</h3>
+          <ul>
+            <li>Thousands of engineering and science textbooks</li>
+            <li>Reference books for all semesters and subjects</li>
+            <li>Past papers and exam preparation resources</li>
+            <li>Quiet reading and study zones</li>
+            <li>Digital resources and e-books access</li>
+            <li>Journals and research publications</li>
+          </ul>
+
+          <h3>🤫 The Study Environment</h3>
+          <p>The library is always calm and peaceful. Everyone is focused on their work. There are no distractions. When I enter the library, I automatically become more productive. The environment forces you to study!</p>
+
+          <h3>📚 Books I Use Most</h3>
+          <ul>
+            <li><strong>Calculus</strong> — Thomas Calculus (12th Edition)</li>
+            <li><strong>Programming</strong> — C++ by Deitel & Deitel</li>
+            <li><strong>Physics</strong> — Halliday, Resnick & Krane</li>
+            <li><strong>Discrete Math</strong> — Kenneth Rosen</li>
+          </ul>
+
+          <h3>💡 My Library Tips for Students</h3>
+          <ul>
+            <li>Visit the library before exams — not just during exams</li>
+            <li>Borrow books early before they run out</li>
+            <li>Use the quiet zone for solving tough problems</li>
+            <li>Ask the librarian for help — they are very helpful</li>
+            <li>Make it a daily habit, even for 30 minutes</li>
+          </ul>
+
+          <p>The library is a student's best friend. If you want to do well in engineering, spend time in the library regularly. Knowledge is free here — use it!</p>
+        `
+      },
+      semester: {
+        tag: '🎯 1st Semester',
+        tagColor: 'background:rgba(255,110,180,0.15);color:#ff6eb4',
+        title: 'My First Semester Journey at UET — Subjects, Struggles & Success',
+        img: '',
+        content: `
+          <p>My first semester at UET Faisalabad was one of the most challenging and rewarding experiences of my life. Six subjects, new friends, a new city, and a whole new world of engineering. Here is my complete journey.</p>
+
+          <h3>📚 My 1st Semester Subjects</h3>
+          <div class="subject-grid">
+            <div class="subject-card">
+              <div class="subj-icon">📐</div>
+              <div class="subj-name">Calculus</div>
+              <div class="subj-desc">Limits, Derivatives, Integration</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">💻</div>
+              <div class="subj-name">Programming Fundamentals</div>
+              <div class="subj-desc">C++ Basics, Logic Building</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">⚡</div>
+              <div class="subj-name">Applied Physics</div>
+              <div class="subj-desc">Mechanics, Waves, Electricity</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">📿</div>
+              <div class="subj-name">Mualimul Quran</div>
+              <div class="subj-desc">Quran Recitation & Tajweed</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">🖥️</div>
+              <div class="subj-name">Application of AICT</div>
+              <div class="subj-desc">Computer Skills & IT Tools</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">🔢</div>
+              <div class="subj-name">Discrete Mathematics</div>
+              <div class="subj-desc">Logic, Sets, Graph Theory</div>
+            </div>
+          </div>
+
+          <h3>📐 Calculus — The Biggest Challenge</h3>
+          <p>Calculus was the toughest subject of my first semester. Limits, derivatives, and integration — all required a completely new way of mathematical thinking. I spent hours solving problems from Thomas Calculus. Slowly, the concepts started making sense and I began to enjoy it.</p>
+
+          <h3>💻 Programming Fundamentals — My Favourite Subject</h3>
+          <p>Programming was my absolute favourite. Learning C++ — variables, loops, functions, and arrays — felt like learning a superpower. I spent extra time on this subject, solving lab problems and writing code on my own. This subject confirmed my passion for software development.</p>
+
+          <h3>⚡ Applied Physics — Connecting Theory to Reality</h3>
+          <p>Physics in engineering is different from FSc. The problems are more applied and require deep understanding. Topics like mechanics, electric circuits, and wave motion were challenging but very interesting when connected to real engineering applications.</p>
+
+          <h3>📿 Mualimul Quran — Spiritual Balance</h3>
+          <p>Mualimul Quran was a beautiful subject that gave spiritual balance to an otherwise technical semester. Learning proper Quran recitation with Tajweed rules was a calming experience that reminded me of the bigger purpose behind all this hard work.</p>
+
+          <h3>🖥️ Application of AICT — Practical Tech Skills</h3>
+          <p>This subject taught us practical computer skills — MS Office, internet tools, and basic IT concepts. As someone already interested in web development, I found this relatively easy but it helped me understand how technology is used professionally.</p>
+
+          <h3>🔢 Discrete Mathematics — Logic & Thinking</h3>
+          <p>Discrete Math was fascinating. Boolean logic, set theory, graph theory, and combinatorics — these topics train your mind to think in a structured, logical way. It is the mathematical foundation of computer science.</p>
+
+          <h3>🏆 Lessons Learned in 1st Semester</h3>
+          <ul>
+            <li>✅ Consistency beats last-minute cramming every time</li>
+            <li>✅ Ask questions — professors are there to help you</li>
+            <li>✅ Form study groups with serious classmates</li>
+            <li>✅ Use the library regularly, not just before exams</li>
+            <li>✅ Take care of your health — sleep and eat properly</li>
+            <li>✅ Balance academic work with spiritual and mental peace</li>
+          </ul>
+
+          <p>My first semester was tough, but Alhamdulillah I survived it and grew stronger. To every new student entering UET — believe in yourself, work hard, and never give up. The journey is worth it! 💪</p>
+        `
       }
     };
 
     function openModal(key) {
       const post = posts[key];
+      if (!post) return;
+      const imgHtml = post.img ? `<img class="modal-img" src="${post.img}" alt="${post.title}" onerror="this.style.display='none'"/>` : '';
       document.getElementById('modalContent').innerHTML = `
         <span class="modal-tag" style="${post.tagColor}">${post.tag}</span>
         <h2>${post.title}</h2>
+        ${imgHtml}
         <div class="modal-content">${post.content}</div>
       `;
       document.getElementById('modalOverlay').classList.add('open');
