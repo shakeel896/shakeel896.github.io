@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Me - Shakeel Ahmad</title>
+  <title>Blog - Shakeel Ahmad</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --accent: #e8c97e;
-      --accent2: #7eb8e8;
+      --bg: #0a0a0f;
+      --surface: #13131a;
       --text: #f0ede8;
       --muted: #888;
-      --border: #2a2a2a;
+      --border: #222230;
+
+      --c1: #ff6b6b; /* red - MySQL */
+      --c2: #ffd93d; /* yellow - HTML/CSS */
+      --c3: #6bcb77; /* green - Web Dev */
+      --c4: #4d96ff; /* blue - UET */
+      --c5: #c77dff; /* purple - C++ */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +31,7 @@
 
     /* NAV */
     nav {
-      background: #111;
+      background: #0d0d14;
       padding: 18px 40px;
       display: flex;
       justify-content: center;
@@ -46,226 +50,273 @@
       font-weight: 500;
       transition: color 0.3s;
     }
-    nav a:hover, nav a.active { color: var(--accent); }
+    nav a:hover { color: white; }
+    nav a.active { color: white; }
 
-    /* HERO */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 70vh;
-      align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 80px 40px;
-      gap: 60px;
+    /* HEADER */
+    .page-header {
+      text-align: center;
+      padding: 70px 20px 40px;
     }
-
-    .hero-text h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.1;
+    .page-header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       margin-bottom: 20px;
     }
-    .hero-text h1 span { color: var(--accent); }
-
-    .hero-text .tagline {
-      font-size: 16px;
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 64px);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #c77dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-header p {
       color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 30px;
-      max-width: 420px;
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
-    .badge {
-      display: inline-block;
-      background: rgba(232, 201, 126, 0.1);
-      border: 1px solid rgba(232, 201, 126, 0.3);
-      color: var(--accent);
-      padding: 6px 16px;
+    /* FILTER TAGS */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 20px 40px 40px;
+    }
+    .tag-btn {
+      padding: 7px 18px;
       border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
       font-size: 13px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s;
+    }
+    .tag-btn:hover, .tag-btn.active {
+      background: rgba(255,255,255,0.07);
+      color: white;
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    /* BLOG GRID */
+    .blog-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+    }
+
+    /* BLOG CARD */
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      animation: fadeUp 0.6s ease forwards;
+      opacity: 0;
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .blog-card:nth-child(1) { animation-delay: 0.1s; }
+    .blog-card:nth-child(2) { animation-delay: 0.2s; }
+    .blog-card:nth-child(3) { animation-delay: 0.3s; }
+    .blog-card:nth-child(4) { animation-delay: 0.4s; }
+    .blog-card:nth-child(5) { animation-delay: 0.5s; }
+
+    .card-banner {
+      height: 8px;
+    }
+    .card-body {
+      padding: 28px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: 1px;
       text-transform: uppercase;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
 
-    /* PHOTO */
-    .hero-photo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .photo-frame {
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-      padding: 4px;
-      animation: pulse 3s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(232,201,126,0.2); }
-      50% { box-shadow: 0 0 40px 10px rgba(232,201,126,0.15); }
-    }
-    .photo-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      font-size: 80px;
-    }
-    .photo-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      line-height: 1.3;
+      margin-bottom: 12px;
     }
 
-    /* SECTIONS */
-    .section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 60px 40px;
+    .card-excerpt {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 16px;
       border-top: 1px solid var(--border);
     }
 
-    .section-label {
-      font-size: 12px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
+    .read-more {
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.3s;
     }
+    .read-more:hover { gap: 8px; }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      margin-bottom: 40px;
+    /* COLOR THEMES PER TOPIC */
+    .mysql .card-banner { background: var(--c1); }
+    .mysql .card-tag { background: rgba(255,107,107,0.15); color: var(--c1); }
+    .mysql .card-title { color: #fff; }
+    .mysql .read-more { color: var(--c1); }
+    .mysql:hover { box-shadow: 0 20px 40px rgba(255,107,107,0.15); }
+
+    .htmlcss .card-banner { background: var(--c2); }
+    .htmlcss .card-tag { background: rgba(255,217,61,0.15); color: var(--c2); }
+    .htmlcss .card-title { color: #fff; }
+    .htmlcss .read-more { color: var(--c2); }
+    .htmlcss:hover { box-shadow: 0 20px 40px rgba(255,217,61,0.15); }
+
+    .webdev .card-banner { background: var(--c3); }
+    .webdev .card-tag { background: rgba(107,203,119,0.15); color: var(--c3); }
+    .webdev .card-title { color: #fff; }
+    .webdev .read-more { color: var(--c3); }
+    .webdev:hover { box-shadow: 0 20px 40px rgba(107,203,119,0.15); }
+
+    .uet .card-banner { background: var(--c4); }
+    .uet .card-tag { background: rgba(77,150,255,0.15); color: var(--c4); }
+    .uet .card-title { color: #fff; }
+    .uet .read-more { color: var(--c4); }
+    .uet:hover { box-shadow: 0 20px 40px rgba(77,150,255,0.15); }
+
+    .cpp .card-banner { background: var(--c5); }
+    .cpp .card-tag { background: rgba(199,125,255,0.15); color: var(--c5); }
+    .cpp .card-title { color: #fff; }
+    .cpp .read-more { color: var(--c5); }
+    .cpp:hover { box-shadow: 0 20px 40px rgba(199,125,255,0.15); }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-
-    /* EDUCATION */
-    .edu-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .edu-card {
+    .modal-overlay.open { display: flex; }
+    .modal {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-      transition: transform 0.3s, border-color 0.3s;
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 40px;
       position: relative;
-      overflow: hidden;
+      animation: modalIn 0.3s ease;
     }
-    .edu-card::before {
-      content: '';
+    @keyframes modalIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-close {
       position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: var(--accent);
-    }
-    .edu-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(232,201,126,0.3);
-    }
-    .edu-card .year {
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .edu-card h3 {
-      font-size: 18px;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-    .edu-card p {
+      top: 16px; right: 20px;
+      background: none;
+      border: none;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
     }
-
-    /* SKILLS */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+    .modal-close:hover { color: white; }
+    .modal-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
     }
-
-    .skill-item {
-      background: var(--surface);
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    .modal-content {
+      color: #ccc;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .modal-content h3 {
+      color: white;
+      font-size: 18px;
+      margin: 24px 0 10px;
+      font-family: 'Playfair Display', serif;
+    }
+    .modal-content ul {
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+    .modal-content ul li { margin-bottom: 8px; }
+    .modal-content code {
+      background: rgba(255,255,255,0.07);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #ffd93d;
+    }
+    .modal-content pre {
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 20px;
-      transition: border-color 0.3s;
-    }
-    .skill-item:hover { border-color: rgba(126,184,232,0.4); }
-
-    .skill-name {
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .skill-name span { color: var(--accent2); font-size: 12px; }
-
-    .skill-bar {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .skill-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--accent2), var(--accent));
-      animation: fillBar 1.5s ease-out forwards;
-      transform-origin: left;
-    }
-    @keyframes fillBar {
-      from { width: 0; }
-    }
-
-    /* ACHIEVEMENTS */
-    .achievements-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .achievement {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      transition: transform 0.3s;
-    }
-    .achievement:hover { transform: translateY(-3px); }
-
-    .ach-icon {
-      font-size: 28px;
-      flex-shrink: 0;
-    }
-    .ach-title {
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    .ach-desc {
+      overflow-x: auto;
+      margin: 16px 0;
       font-size: 13px;
-      color: var(--muted);
       line-height: 1.6;
     }
 
-    /* FOOTER */
     footer {
       text-align: center;
       padding: 30px;
@@ -274,26 +325,11 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ANIMATIONS */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.8s ease forwards;
-    }
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
-
     @media (max-width: 700px) {
-      .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 20px; }
-      .hero-photo { order: -1; }
-      .photo-frame { width: 200px; height: 200px; }
-      .section { padding: 40px 20px; }
       nav { gap: 20px; padding: 16px 20px; }
+      .blog-grid { grid-template-columns: 1fr; padding: 0 20px 60px; }
+      .filters { padding: 10px 20px 30px; }
+      .modal { padding: 24px; }
     }
   </style>
 </head>
@@ -301,116 +337,305 @@
 
   <nav>
     <a href="index.html">Home</a>
-    <a href="about.html" class="active">About</a>
-    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="blog.html" class="active">Blog</a>
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-text">
-      <div class="badge fade-in">✦ About Me</div>
-      <h1 class="fade-in delay-1">Shakeel <span>Ahmad</span></h1>
-      <p class="tagline fade-in delay-2">
-        A passionate student exploring the world of technology, continuously learning and building skills for a better future.
-      </p>
-    </div>
-    <div class="hero-photo fade-in delay-3">
-      <div class="photo-frame">
-        <div class="photo-inner">
-          <!-- Apni photo lagani ho to: <img src="your-photo.jpg" alt="Shakeel Ahmad"> -->
-          🧑‍💻
+  <div class="page-header">
+    <div class="badge">✦ My Writings</div>
+    <h1>My Blog Posts</h1>
+    <p>Sharing what I learn about technology, engineering, and programming.</p>
+  </div>
+
+  <div class="filters">
+    <button class="tag-btn active" onclick="filterPosts('all', this)">All Posts</button>
+    <button class="tag-btn" onclick="filterPosts('mysql', this)">MySQL</button>
+    <button class="tag-btn" onclick="filterPosts('htmlcss', this)">HTML & CSS</button>
+    <button class="tag-btn" onclick="filterPosts('webdev', this)">Web Dev</button>
+    <button class="tag-btn" onclick="filterPosts('uet', this)">UET Life</button>
+    <button class="tag-btn" onclick="filterPosts('cpp', this)">Python & ML</button>
+  </div>
+
+  <div class="blog-grid" id="blogGrid">
+
+    <!-- CARD 1: MySQL -->
+    <div class="blog-card mysql" onclick="openModal('mysql')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🗄️ MySQL</span>
+        <h2 class="card-title">Introduction to MySQL — Databases Explained Simply</h2>
+        <p class="card-excerpt">MySQL is one of the most popular database systems in the world. Learn what it is, why we use it, and how to create your first table.</p>
+        <div class="card-meta">
+          <span>📅 2024 · 5 min read</span>
+          <a class="read-more">Read More →</a>
         </div>
       </div>
+    </div>
+
+    <!-- CARD 2: HTML & CSS -->
+    <div class="blog-card htmlcss" onclick="openModal('htmlcss')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🎨 HTML & CSS</span>
+        <h2 class="card-title">Build Your First Website with HTML & CSS</h2>
+        <p class="card-excerpt">HTML gives structure and CSS gives style. Together they are the foundation of every website on the internet. Let's build one!</p>
+        <div class="card-meta">
+          <span>📅 2024 · 4 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3: Web Dev -->
+    <div class="blog-card webdev" onclick="openModal('webdev')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🌐 Web Dev</span>
+        <h2 class="card-title">How to Host Your Website Free on GitHub Pages</h2>
+        <p class="card-excerpt">GitHub Pages lets you host any static website completely free. I hosted my own portfolio here — and so can you in just a few steps!</p>
+        <div class="card-meta">
+          <span>📅 2024 · 3 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4: UET -->
+    <div class="blog-card uet" onclick="openModal('uet')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🎓 UET Life</span>
+        <h2 class="card-title">My Journey to UET Lahore — Faisalabad Campus</h2>
+        <p class="card-excerpt">Getting into UET was a dream. From FSc at Faran Model College Jhang to engineering at one of Pakistan's top universities — here's my story.</p>
+        <div class="card-meta">
+          <span>📅 2024 · 4 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5: Python & ML -->
+    <div class="blog-card cpp" onclick="openModal('cpp')">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-tag">🐍 Python & ML</span>
+        <h2 class="card-title">Getting Started with Python & Machine Learning</h2>
+        <p class="card-excerpt">Python is the most popular language for AI and Machine Learning. Learn the basics of Python and how it is used to build intelligent systems.</p>
+        <div class="card-meta">
+          <span>📅 2024 · 6 min read</span>
+          <a class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modalBox">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <div id="modalContent"></div>
     </div>
   </div>
 
-  <!-- EDUCATION -->
-  <div class="section fade-in">
-    <div class="section-label">📚 Background</div>
-    <h2 class="section-title">Education</h2>
-    <div class="edu-cards">
-      <div class="edu-card">
-        <div class="year">2024 — Present</div>
-        <h3>University of Engineering & Technology</h3>
-        <p>Faisalabad Campus — Currently in 2nd Semester</p>
-      </div>
-      <div class="edu-card">
-        <div class="year">FSc</div>
-        <h3>FSc Pre Engineering</h3>
-        <p>Faran Model College, Jhang — Physics, Chemistry, Mathematics</p>
-      </div>
-      <div class="edu-card">
-        <div class="year">Matric</div>
-        <h3>Secondary School Certificate</h3>
-        <p>Govt. High School, Jhang City</p>
-      </div>
-    </div>
-  </div>
+  <footer>© 2024 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
 
-  <!-- SKILLS -->
-  <div class="section fade-in">
-    <div class="section-label">⚡ What I Know</div>
-    <h2 class="section-title">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-item">
-        <div class="skill-name">HTML <span>85%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">CSS <span>75%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">MySQL <span>60%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">Problem Solving <span>70%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
-      </div>
-    </div>
-  </div>
+  <script>
+    const posts = {
+      mysql: {
+        tag: '🗄️ MySQL',
+        tagColor: 'background:rgba(255,107,107,0.15);color:#ff6b6b',
+        title: 'Introduction to MySQL — Databases Explained Simply',
+        content: `
+          <p>MySQL is a <strong>database management system (DBMS)</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development.</p>
+          <h3>Why Use MySQL?</h3>
+          <ul>
+            <li>Easy to learn and use</li>
+            <li>Fast performance even with large data</li>
+            <li>Open-source and free</li>
+            <li>Works perfectly with PHP and web apps</li>
+            <li>Secure and reliable</li>
+          </ul>
+          <h3>Creating Your First Table</h3>
+          <p>Here is a simple SQL command to create a students table:</p>
+          <pre>CREATE TABLE students (
+  id    INT,
+  name  VARCHAR(50),
+  marks INT
+);</pre>
+          <h3>Inserting Data</h3>
+          <pre>INSERT INTO students VALUES (1, 'Shakeel', 95);</pre>
+          <h3>Viewing Data</h3>
+          <pre>SELECT * FROM students;</pre>
+          <p>MySQL is a must-learn skill for any web developer or software engineer. Start practicing today!</p>
+        `
+      },
+      htmlcss: {
+        tag: '🎨 HTML & CSS',
+        tagColor: 'background:rgba(255,217,61,0.15);color:#ffd93d',
+        title: 'Build Your First Website with HTML & CSS',
+        content: `
+          <p><strong>HTML</strong> (HyperText Markup Language) gives structure to a webpage. <strong>CSS</strong> (Cascading Style Sheets) makes it look beautiful.</p>
+          <h3>Basic HTML Structure</h3>
+          <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;p&gt;This is my first website.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+          <h3>Adding CSS Style</h3>
+          <pre>body {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+}
+h1 {
+  color: blue;
+  text-align: center;
+}</pre>
+          <h3>Key HTML Tags to Know</h3>
+          <ul>
+            <li><code>&lt;h1&gt; to &lt;h6&gt;</code> — Headings</li>
+            <li><code>&lt;p&gt;</code> — Paragraph</li>
+            <li><code>&lt;a&gt;</code> — Links</li>
+            <li><code>&lt;img&gt;</code> — Images</li>
+            <li><code>&lt;nav&gt;</code> — Navigation bar</li>
+          </ul>
+          <p>I built this entire website using only HTML and CSS. You can too!</p>
+        `
+      },
+      webdev: {
+        tag: '🌐 Web Dev',
+        tagColor: 'background:rgba(107,203,119,0.15);color:#6bcb77',
+        title: 'How to Host Your Website Free on GitHub Pages',
+        content: `
+          <p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying anything!</p>
+          <h3>Step-by-Step Guide</h3>
+          <ul>
+            <li>Create a free account at <code>github.com</code></li>
+            <li>Create a new repository named <code>yourusername.github.io</code></li>
+            <li>Upload your HTML and CSS files</li>
+            <li>Go to Settings → Pages → Enable GitHub Pages</li>
+            <li>Your site is live at <code>yourusername.github.io</code></li>
+          </ul>
+          <h3>My Own Experience</h3>
+          <p>I am currently hosting my portfolio at <code>shakeel896.github.io</code> using this exact method. It is fast, free, and very easy to update.</p>
+          <h3>Tips</h3>
+          <ul>
+            <li>Always name your main file <code>index.html</code></li>
+            <li>Keep all files in the same folder</li>
+            <li>Commit changes to see them live instantly</li>
+          </ul>
+        `
+      },
+      uet: {
+        tag: '🎓 UET Life',
+        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
+        title: 'My Journey to UET Lahore — Faisalabad Campus',
+        content: `
+          <p>Getting into <strong>University of Engineering & Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now in my 2nd semester at the Faisalabad Campus.</p>
+          <h3>My Background</h3>
+          <ul>
+            <li>📚 Matric from Govt. High School, Jhang City</li>
+            <li>🔬 FSc Pre Engineering from Faran Model College, Jhang</li>
+            <li>🎓 Now studying Engineering at UET Lahore, Faisalabad Campus</li>
+          </ul>
+          <h3>Why Engineering?</h3>
+          <p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p>
+          <h3>What I Am Learning</h3>
+          <ul>
+            <li>C++ Programming</li>
+            <li>Applied Physics</li>
+            <li>Calculus & Linear Algebra</li>
+            <li>Web Development (self-learning)</li>
+          </ul>
+          <p>UET is challenging but every day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is worth it!</p>
+        `
+      },
+      cpp: {
+        tag: '🐍 Python & ML',
+        tagColor: 'background:rgba(199,125,255,0.15);color:#c77dff',
+        title: 'Getting Started with Python & Machine Learning',
+        content: `
+          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>. It is simple to learn and extremely powerful.</p>
+          <h3>Your First Python Program</h3>
+          <pre>print("Hello, World!")
 
-  <!-- ACHIEVEMENTS -->
-  <div class="section fade-in">
-    <div class="section-label">🏆 Milestones</div>
-    <h2 class="section-title">Achievements</h2>
-    <div class="achievements-list">
-      <div class="achievement">
-        <div class="ach-icon">🌐</div>
-        <div>
-          <div class="ach-title">Personal Website Launched</div>
-          <div class="ach-desc">Created and deployed a multi-page website on GitHub Pages with HTML & CSS.</div>
-        </div>
-      </div>
-      <div class="achievement">
-        <div class="ach-icon">📝</div>
-        <div>
-          <div class="ach-title">Technical Blogger</div>
-          <div class="ach-desc">Writing blog posts about MySQL and web development for other learners.</div>
-        </div>
-      </div>
-      <div class="achievement">
-        <div class="ach-icon">🚀</div>
-        <div>
-          <div class="ach-title">Self-Taught Developer</div>
-          <div class="ach-desc">Learning web development independently while completing formal education.</div>
-        </div>
-      </div>
-      <div class="achievement">
-        <div class="ach-icon">💡</div>
-        <div>
-          <div class="ach-title">GitHub Portfolio</div>
-          <div class="ach-desc">Maintaining an online presence at shakeel896.github.io to showcase work.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+name = "Shakeel"
+print("My name is", name)</pre>
+          <h3>Python vs Other Languages</h3>
+          <ul>
+            <li>Very easy and clean syntax</li>
+            <li>Huge library support (NumPy, Pandas, TensorFlow)</li>
+            <li>Used in AI, Web Dev, Data Science, and Automation</li>
+            <li>Most in-demand language in the job market</li>
+          </ul>
+          <h3>What is Machine Learning?</h3>
+          <p>Machine Learning is a branch of AI where computers <strong>learn from data</strong> without being explicitly programmed. For example, spam filters, recommendation systems, and face recognition all use ML.</p>
+          <h3>Simple ML Example with Python</h3>
+          <pre>from sklearn.linear_model import LinearRegression
 
-  <footer>
-    © 2024 Shakeel Ahmad — Built with ❤️ using HTML & CSS
-  </footer>
+# Training data
+X = [[1], [2], [3], [4]]
+y = [2, 4, 6, 8]
+
+model = LinearRegression()
+model.fit(X, y)
+
+print(model.predict([[5]]))  # Output: [10]</pre>
+          <h3>Key Python Libraries for ML</h3>
+          <ul>
+            <li><code>NumPy</code> — Mathematical operations</li>
+            <li><code>Pandas</code> — Data handling</li>
+            <li><code>Matplotlib</code> — Data visualization</li>
+            <li><code>Scikit-learn</code> — Machine Learning models</li>
+            <li><code>TensorFlow</code> — Deep Learning</li>
+          </ul>
+          <p>Python and Machine Learning are the future of technology. As an engineering student, learning these skills will open endless career opportunities!</p>
+        `
+      }
+    };
+
+    function openModal(key) {
+      const post = posts[key];
+      document.getElementById('modalContent').innerHTML = `
+        <span class="modal-tag" style="${post.tagColor}">${post.tag}</span>
+        <h2>${post.title}</h2>
+        <div class="modal-content">${post.content}</div>
+      `;
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function filterPosts(category, btn) {
+      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.blog-card').forEach(card => {
+        if (category === 'all' || card.classList.contains(category)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModalDirect();
+    });
+  </script>
 
 </body>
 </html>
