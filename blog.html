@@ -12,7 +12,6 @@
       --text: #f0ede8;
       --muted: #888;
       --border: #222230;
-
       --c1: #ff6b6b;
       --c2: #ffd93d;
       --c3: #6bcb77;
@@ -22,15 +21,8 @@
       --c7: #00d4aa;
       --c8: #ff6eb4;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
 
     nav {
       background: #0d0d14;
@@ -55,10 +47,7 @@
     nav a:hover { color: white; }
     nav a.active { color: white; }
 
-    .page-header {
-      text-align: center;
-      padding: 70px 20px 40px;
-    }
+    .page-header { text-align: center; padding: 70px 20px 40px; }
     .page-header .badge {
       display: inline-block;
       background: rgba(255,255,255,0.05);
@@ -75,16 +64,35 @@
       font-family: 'Playfair Display', serif;
       font-size: clamp(36px, 6vw, 64px);
       margin-bottom: 16px;
-      background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #c77dff);
+      background: linear-gradient(135deg, #4d96ff, #6bcb77, #ffd93d, #ff6b6b, #c77dff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .page-header p {
+    .page-header p { color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* TIMELINE LABEL */
+    .section-divider {
+      max-width: 1200px;
+      margin: 0 auto 10px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-divider:not(:first-of-type) { margin-top: 30px; }
+    .divider-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
       color: var(--muted);
-      font-size: 16px;
-      max-width: 500px;
-      margin: 0 auto;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     .filters {
@@ -133,25 +141,51 @@
     .blog-card:hover { transform: translateY(-6px); }
 
     @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .blog-card:nth-child(1) { animation-delay: 0.1s; }
-    .blog-card:nth-child(2) { animation-delay: 0.2s; }
-    .blog-card:nth-child(3) { animation-delay: 0.3s; }
-    .blog-card:nth-child(4) { animation-delay: 0.4s; }
-    .blog-card:nth-child(5) { animation-delay: 0.5s; }
-    .blog-card:nth-child(6) { animation-delay: 0.6s; }
-    .blog-card:nth-child(7) { animation-delay: 0.7s; }
-    .blog-card:nth-child(8) { animation-delay: 0.8s; }
-    .blog-card:nth-child(9) { animation-delay: 0.9s; }
+    .blog-card:nth-child(1) { animation-delay: 0.08s; }
+    .blog-card:nth-child(2) { animation-delay: 0.16s; }
+    .blog-card:nth-child(3) { animation-delay: 0.24s; }
+    .blog-card:nth-child(4) { animation-delay: 0.32s; }
+    .blog-card:nth-child(5) { animation-delay: 0.40s; }
+    .blog-card:nth-child(6) { animation-delay: 0.48s; }
+    .blog-card:nth-child(7) { animation-delay: 0.56s; }
+    .blog-card:nth-child(8) { animation-delay: 0.64s; }
+    .blog-card:nth-child(9) { animation-delay: 0.72s; }
+
+    /* FEATURED CARD (first card — full width) */
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+    }
+    .blog-card.featured .card-banner { display: none; }
+    .blog-card.featured .card-img {
+      height: 100%;
+      min-height: 260px;
+      border-radius: 0;
+    }
+    .blog-card.featured .card-body { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
+    .blog-card.featured .card-title { font-size: 28px; }
+    .blog-card.featured .card-excerpt { font-size: 15px; }
+
+    /* Step number badge */
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
 
     .card-banner { height: 8px; }
-    .card-img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
-    }
+    .card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
     .card-body { padding: 28px; }
 
     .card-tag {
@@ -164,21 +198,13 @@
       text-transform: uppercase;
       margin-bottom: 14px;
     }
-
     .card-title {
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       line-height: 1.3;
       margin-bottom: 12px;
     }
-
-    .card-excerpt {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
-
+    .card-excerpt { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
     .card-meta {
       display: flex;
       justify-content: space-between;
@@ -187,8 +213,8 @@
       color: var(--muted);
       padding-top: 16px;
       border-top: 1px solid var(--border);
+      margin-top: auto;
     }
-
     .read-more {
       font-size: 13px;
       font-weight: 500;
@@ -200,54 +226,57 @@
     }
     .read-more:hover { gap: 8px; }
 
-    /* Color themes */
-    .mysql .card-banner { background: var(--c1); }
-    .mysql .card-tag { background: rgba(255,107,107,0.15); color: var(--c1); }
-    .mysql .card-title { color: #fff; }
-    .mysql .read-more { color: var(--c1); }
-    .mysql:hover { box-shadow: 0 20px 40px rgba(255,107,107,0.15); }
+    /* ---- Color Themes ---- */
+    .uet       .card-banner { background: var(--c4); }
+    .uet       .card-tag    { background: rgba(77,150,255,0.15); color: var(--c4); }
+    .uet       .card-title  { color: #fff; }
+    .uet       .read-more   { color: var(--c4); }
+    .uet:hover              { box-shadow: 0 20px 40px rgba(77,150,255,0.15); }
 
-    .htmlcss .card-banner { background: var(--c2); }
-    .htmlcss .card-tag { background: rgba(255,217,61,0.15); color: var(--c2); }
-    .htmlcss .card-title { color: #fff; }
-    .htmlcss .read-more { color: var(--c2); }
-    .htmlcss:hover { box-shadow: 0 20px 40px rgba(255,217,61,0.15); }
+    .hostel    .card-banner { background: var(--c6); }
+    .hostel    .card-tag    { background: rgba(255,154,60,0.15); color: var(--c6); }
+    .hostel    .card-title  { color: #fff; }
+    .hostel    .read-more   { color: var(--c6); }
+    .hostel:hover           { box-shadow: 0 20px 40px rgba(255,154,60,0.15); }
 
-    .webdev .card-banner { background: var(--c3); }
-    .webdev .card-tag { background: rgba(107,203,119,0.15); color: var(--c3); }
-    .webdev .card-title { color: #fff; }
-    .webdev .read-more { color: var(--c3); }
-    .webdev:hover { box-shadow: 0 20px 40px rgba(107,203,119,0.15); }
+    .library   .card-banner { background: var(--c7); }
+    .library   .card-tag    { background: rgba(0,212,170,0.15); color: var(--c7); }
+    .library   .card-title  { color: #fff; }
+    .library   .read-more   { color: var(--c7); }
+    .library:hover          { box-shadow: 0 20px 40px rgba(0,212,170,0.15); }
 
-    .uet .card-banner { background: var(--c4); }
-    .uet .card-tag { background: rgba(77,150,255,0.15); color: var(--c4); }
-    .uet .card-title { color: #fff; }
-    .uet .read-more { color: var(--c4); }
-    .uet:hover { box-shadow: 0 20px 40px rgba(77,150,255,0.15); }
+    .semester  .card-banner { background: var(--c8); }
+    .semester  .card-tag    { background: rgba(255,110,180,0.15); color: var(--c8); }
+    .semester  .card-title  { color: #fff; }
+    .semester  .read-more   { color: var(--c8); }
+    .semester:hover         { box-shadow: 0 20px 40px rgba(255,110,180,0.15); }
 
-    .cpp .card-banner { background: var(--c5); }
-    .cpp .card-tag { background: rgba(199,125,255,0.15); color: var(--c5); }
-    .cpp .card-title { color: #fff; }
-    .cpp .read-more { color: var(--c5); }
-    .cpp:hover { box-shadow: 0 20px 40px rgba(199,125,255,0.15); }
+    .htmlcss   .card-banner { background: var(--c2); }
+    .htmlcss   .card-tag    { background: rgba(255,217,61,0.15); color: var(--c2); }
+    .htmlcss   .card-title  { color: #fff; }
+    .htmlcss   .read-more   { color: var(--c2); }
+    .htmlcss:hover          { box-shadow: 0 20px 40px rgba(255,217,61,0.15); }
 
-    .hostel .card-banner { background: var(--c6); }
-    .hostel .card-tag { background: rgba(255,154,60,0.15); color: var(--c6); }
-    .hostel .card-title { color: #fff; }
-    .hostel .read-more { color: var(--c6); }
-    .hostel:hover { box-shadow: 0 20px 40px rgba(255,154,60,0.15); }
+    .webdev    .card-banner { background: var(--c3); }
+    .webdev    .card-tag    { background: rgba(107,203,119,0.15); color: var(--c3); }
+    .webdev    .card-title  { color: #fff; }
+    .webdev    .read-more   { color: var(--c3); }
+    .webdev:hover           { box-shadow: 0 20px 40px rgba(107,203,119,0.15); }
 
-    .library .card-banner { background: var(--c7); }
-    .library .card-tag { background: rgba(0,212,170,0.15); color: var(--c7); }
-    .library .card-title { color: #fff; }
-    .library .read-more { color: var(--c7); }
-    .library:hover { box-shadow: 0 20px 40px rgba(0,212,170,0.15); }
+    .mysql     .card-banner { background: var(--c1); }
+    .mysql     .card-tag    { background: rgba(255,107,107,0.15); color: var(--c1); }
+    .mysql     .card-title  { color: #fff; }
+    .mysql     .read-more   { color: var(--c1); }
+    .mysql:hover            { box-shadow: 0 20px 40px rgba(255,107,107,0.15); }
 
-    .semester .card-banner { background: var(--c8); }
-    .semester .card-tag { background: rgba(255,110,180,0.15); color: var(--c8); }
-    .semester .card-title { color: #fff; }
-    .semester .read-more { color: var(--c8); }
-    .semester:hover { box-shadow: 0 20px 40px rgba(255,110,180,0.15); }
+    .cpp       .card-banner { background: var(--c5); }
+    .cpp       .card-tag    { background: rgba(199,125,255,0.15); color: var(--c5); }
+    .cpp       .card-title  { color: #fff; }
+    .cpp       .read-more   { color: var(--c5); }
+    .cpp:hover              { box-shadow: 0 20px 40px rgba(199,125,255,0.15); }
+
+    /* Featured card left-side color stripe */
+    .blog-card.featured.uet { border-left: 5px solid var(--c4); }
 
     /* MODAL */
     .modal-overlay {
@@ -259,6 +288,7 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      backdrop-filter: blur(4px);
     }
     .modal-overlay.open { display: flex; }
     .modal {
@@ -267,7 +297,7 @@
       border-radius: 20px;
       max-width: 700px;
       width: 100%;
-      max-height: 85vh;
+      max-height: 88vh;
       overflow-y: auto;
       padding: 40px;
       position: relative;
@@ -275,19 +305,22 @@
     }
     @keyframes modalIn {
       from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      to   { transform: scale(1);    opacity: 1; }
     }
     .modal-close {
       position: absolute;
       top: 16px; right: 20px;
-      background: none;
-      border: none;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
       color: var(--muted);
-      font-size: 24px;
+      font-size: 18px;
+      width: 34px; height: 34px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: color 0.2s;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .modal-close:hover { color: white; }
+    .modal-close:hover { color: white; background: rgba(255,255,255,0.12); }
     .modal-tag {
       display: inline-block;
       padding: 4px 14px;
@@ -307,32 +340,27 @@
     .modal-img {
       width: 100%;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       max-height: 280px;
       object-fit: cover;
     }
-    .modal-content {
-      color: #ccc;
-      font-size: 15px;
-      line-height: 1.8;
-    }
+    .modal-content { color: #ccc; font-size: 15px; line-height: 1.85; }
+    .modal-content p { margin-bottom: 12px; }
     .modal-content h3 {
       color: white;
       font-size: 18px;
-      margin: 24px 0 10px;
+      margin: 28px 0 12px;
       font-family: 'Playfair Display', serif;
     }
-    .modal-content ul {
-      padding-left: 20px;
-      margin: 10px 0;
-    }
-    .modal-content ul li { margin-bottom: 8px; }
+    .modal-content ul { padding-left: 20px; margin: 10px 0; }
+    .modal-content ul li { margin-bottom: 9px; }
     .modal-content code {
       background: rgba(255,255,255,0.07);
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 13px;
       color: #ffd93d;
+      font-family: monospace;
     }
     .modal-content pre {
       background: rgba(255,255,255,0.05);
@@ -343,13 +371,9 @@
       margin: 16px 0;
       font-size: 13px;
       line-height: 1.6;
+      font-family: monospace;
     }
-    .subject-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 16px 0;
-    }
+    .subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
     .subject-card {
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
@@ -369,12 +393,17 @@
       border-top: 1px solid var(--border);
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 768px) {
       nav { gap: 20px; padding: 16px 20px; }
       .blog-grid { grid-template-columns: 1fr; padding: 0 20px 60px; }
+      .blog-card.featured { grid-template-columns: 1fr; }
+      .blog-card.featured .card-img { height: 200px; border-radius: 0; }
+      .blog-card.featured .card-body { padding: 24px; }
+      .blog-card.featured .card-title { font-size: 22px; }
       .filters { padding: 10px 20px 30px; }
       .modal { padding: 24px; }
       .subject-grid { grid-template-columns: 1fr; }
+      .section-divider { padding: 0 20px; }
     }
   </style>
 </head>
@@ -388,156 +417,171 @@
   </nav>
 
   <div class="page-header">
-    <div class="badge">✦ My Writings</div>
+    <div class="badge">My Story &amp; Writings</div>
     <h1>My Blog Posts</h1>
-    <p>Sharing what I learn about technology, engineering, and my life at UET.</p>
+    <p>My journey — from Jhang to UET, from campus life to coding. Read it all in the right order.</p>
   </div>
 
   <div class="filters">
     <button class="tag-btn active" onclick="filterPosts('all', this)">All Posts</button>
-    <button class="tag-btn" onclick="filterPosts('mysql', this)">MySQL</button>
-    <button class="tag-btn" onclick="filterPosts('htmlcss', this)">HTML & CSS</button>
-    <button class="tag-btn" onclick="filterPosts('webdev', this)">Web Dev</button>
     <button class="tag-btn" onclick="filterPosts('uet', this)">UET Life</button>
-    <button class="tag-btn" onclick="filterPosts('cpp', this)">Python & ML</button>
     <button class="tag-btn" onclick="filterPosts('hostel', this)">Hostel</button>
     <button class="tag-btn" onclick="filterPosts('library', this)">Library</button>
     <button class="tag-btn" onclick="filterPosts('semester', this)">1st Semester</button>
+    <button class="tag-btn" onclick="filterPosts('htmlcss', this)">HTML &amp; CSS</button>
+    <button class="tag-btn" onclick="filterPosts('webdev', this)">Web Dev</button>
+    <button class="tag-btn" onclick="filterPosts('mysql', this)">MySQL</button>
+    <button class="tag-btn" onclick="filterPosts('cpp', this)">Python &amp; ML</button>
+  </div>
+
+  <!-- CHAPTER 1 -->
+  <div class="section-divider" id="divider-journey">
+    <span class="divider-label">Chapter 1 — The Journey Begins</span>
+    <div class="divider-line"></div>
   </div>
 
   <div class="blog-grid" id="blogGrid">
 
-    <!-- CARD 1: MySQL -->
-    <div class="blog-card mysql" onclick="openModal('mysql')">
-      <div class="card-banner"></div>
-      <img class="card-img" src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&q=80" alt="MySQL Database" onerror="this.style.display='none'"/>
+    <!-- CARD 1: UET Journey (FEATURED) -->
+    <div class="blog-card uet featured" onclick="openModal('uet')">
+      <img class="card-img" src="https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80" alt="UET Faisalabad Campus" onerror="this.style.display='none'"/>
       <div class="card-body">
-        <span class="card-tag">🗄️ MySQL</span>
-        <h2 class="card-title">Introduction to MySQL — Databases Explained Simply</h2>
-        <p class="card-excerpt">MySQL is one of the most popular database systems in the world. Learn what it is, why we use it, and how to create your first table.</p>
-        <div class="card-meta">
-          <span>📅 2024 · 5 min read</span>
-          <a class="read-more">Read More →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 2: HTML & CSS -->
-    <div class="blog-card htmlcss" onclick="openModal('htmlcss')">
-      <div class="card-banner"></div>
-      <img class="card-img" src="https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=600&q=80" alt="HTML & CSS Code" onerror="this.style.display='none'"/>
-      <div class="card-body">
-        <span class="card-tag">🎨 HTML & CSS</span>
-        <h2 class="card-title">Build Your First Website with HTML & CSS</h2>
-        <p class="card-excerpt">HTML gives structure and CSS gives style. Together they are the foundation of every website on the internet. Let's build one!</p>
-        <div class="card-meta">
-          <span>📅 2024 · 4 min read</span>
-          <a class="read-more">Read More →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 3: Web Dev -->
-    <div class="blog-card webdev" onclick="openModal('webdev')">
-      <div class="card-banner"></div>
-      <img class="card-img" src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&q=80" alt="GitHub Web Hosting" onerror="this.style.display='none'"/>
-      <div class="card-body">
-        <span class="card-tag">🌐 Web Dev</span>
-        <h2 class="card-title">How to Host Your Website Free on GitHub Pages</h2>
-        <p class="card-excerpt">GitHub Pages lets you host any static website completely free. I hosted my own portfolio here — and so can you in just a few steps!</p>
-        <div class="card-meta">
-          <span>📅 2024 · 3 min read</span>
-          <a class="read-more">Read More →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 4: UET -->
-    <div class="blog-card uet" onclick="openModal('uet')">
-      <div class="card-banner"></div>
-      <img class="card-img" src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80" alt="UET Faisalabad Campus" onerror="this.style.display='none'"/>
-      <div class="card-body">
-        <span class="card-tag">🎓 UET Life</span>
+        <span class="card-tag">UET Life</span>
         <h2 class="card-title">My Journey to UET Lahore — Faisalabad Campus</h2>
-        <p class="card-excerpt">Getting into UET was a dream. From FSc at Faran Model College Jhang to engineering at one of Pakistan's top universities — here's my story.</p>
+        <p class="card-excerpt">Getting into UET was a dream. From Matric at Govt. High School Jhang, to FSc at Faran Model College, to engineering at one of Pakistan's top universities — here is my full story of how I got here.</p>
         <div class="card-meta">
-          <span>📅 2024 · 4 min read</span>
-          <a class="read-more">Read More →</a>
+          <span>2024 &middot; 4 min read &middot; Start Here</span>
+          <a class="read-more">Read Story &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- CARD 5: Python & ML -->
-    <div class="blog-card cpp" onclick="openModal('cpp')">
-      <div class="card-banner"></div>
-      <img class="card-img" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&q=80" alt="Python Machine Learning" onerror="this.style.display='none'"/>
-      <div class="card-body">
-        <span class="card-tag">🐍 Python & ML</span>
-        <h2 class="card-title">Getting Started with Python & Machine Learning</h2>
-        <p class="card-excerpt">Python is the most popular language for AI and Machine Learning. Learn the basics of Python and how it is used to build intelligent systems.</p>
-        <div class="card-meta">
-          <span>📅 2024 · 6 min read</span>
-          <a class="read-more">Read More →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 6: University -->
+    <!-- CARD 2: Campus Overview -->
     <div class="blog-card uet" onclick="openModal('university')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=600&q=80" alt="University Campus Life" onerror="this.style.display='none'"/>
       <div class="card-body">
-        <span class="card-tag">🏫 University</span>
+        <span class="card-tag">University</span>
         <h2 class="card-title">Life at UET Faisalabad Campus — A Complete Overview</h2>
-        <p class="card-excerpt">UET Lahore, Faisalabad Campus is one of Pakistan's finest engineering universities. Here is everything you need to know about campus life.</p>
+        <p class="card-excerpt">Labs, library, sports ground, canteen — UET Faisalabad Campus has it all. Here is everything you need to know about campus life after you get here.</p>
         <div class="card-meta">
-          <span>📅 2025 · 5 min read</span>
-          <a class="read-more">Read More →</a>
+          <span>2025 &middot; 5 min read</span>
+          <a class="read-more">Read More &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- CARD 7: Hostel -->
+    <!-- CARD 3: Hostel -->
     <div class="blog-card hostel" onclick="openModal('hostel')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80" alt="Hostel Room" onerror="this.style.display='none'"/>
       <div class="card-body">
-        <span class="card-tag">🏠 Hostel Life</span>
+        <span class="card-tag">Hostel Life</span>
         <h2 class="card-title">My Hostel Experience at UET — Living Away From Home</h2>
-        <p class="card-excerpt">Living in a university hostel for the first time is a big adventure. From roommates to midnight study sessions — here is my honest experience.</p>
+        <p class="card-excerpt">Living in a university hostel for the first time is a big adventure. From roommates to midnight study sessions — here is my honest experience living away from family.</p>
         <div class="card-meta">
-          <span>📅 2025 · 4 min read</span>
-          <a class="read-more">Read More →</a>
+          <span>2025 &middot; 4 min read</span>
+          <a class="read-more">Read More &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- CARD 8: Library -->
+    <!-- CARD 4: Library -->
     <div class="blog-card library" onclick="openModal('library')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&q=80" alt="University Library" onerror="this.style.display='none'"/>
       <div class="card-body">
-        <span class="card-tag">📚 Library</span>
+        <span class="card-tag">Library</span>
         <h2 class="card-title">UET Library — My Favourite Place on Campus</h2>
         <p class="card-excerpt">The UET Faisalabad library is a treasure of knowledge. Hundreds of engineering books, quiet study zones, and digital resources — all free for students.</p>
         <div class="card-meta">
-          <span>📅 2025 · 3 min read</span>
-          <a class="read-more">Read More →</a>
+          <span>2025 &middot; 3 min read</span>
+          <a class="read-more">Read More &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- CARD 9: 1st Semester Journey -->
+    <!-- CARD 5: 1st Semester -->
     <div class="blog-card semester" onclick="openModal('semester')">
       <div class="card-banner"></div>
       <img class="card-img" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80" alt="Student Semester Study" onerror="this.style.display='none'"/>
       <div class="card-body">
-        <span class="card-tag">🎯 1st Semester</span>
-        <h2 class="card-title">My First Semester Journey at UET — Subjects, Struggles & Success</h2>
-        <p class="card-excerpt">From Calculus to Mualimul Quran — my complete first semester experience at UET Faisalabad. Every subject, every challenge, every lesson learned.</p>
+        <span class="card-tag">1st Semester</span>
+        <h2 class="card-title">My First Semester Journey at UET — Subjects, Struggles &amp; Success</h2>
+        <p class="card-excerpt">From Calculus to Mualimul Quran — my complete first semester experience at UET. Every subject, every challenge, every lesson learned.</p>
         <div class="card-meta">
-          <span>📅 2025 · 7 min read</span>
-          <a class="read-more">Read More →</a>
+          <span>2025 &middot; 7 min read</span>
+          <a class="read-more">Read More &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHAPTER 2 -->
+  <div class="section-divider" id="divider-tech">
+    <span class="divider-label">Chapter 2 — What I Learned</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="blog-grid" id="blogGrid2">
+
+    <!-- CARD 6: HTML & CSS -->
+    <div class="blog-card htmlcss" onclick="openModal('htmlcss')">
+      <div class="card-banner"></div>
+      <img class="card-img" src="https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=600&q=80" alt="HTML and CSS Code" onerror="this.style.display='none'"/>
+      <div class="card-body">
+        <span class="card-tag">HTML &amp; CSS</span>
+        <h2 class="card-title">Build Your First Website with HTML &amp; CSS</h2>
+        <p class="card-excerpt">HTML gives structure and CSS gives style. Together they are the foundation of every website on the internet. I learned this first — and you should too!</p>
+        <div class="card-meta">
+          <span>2024 &middot; 4 min read</span>
+          <a class="read-more">Read More &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7: Web Dev / GitHub -->
+    <div class="blog-card webdev" onclick="openModal('webdev')">
+      <div class="card-banner"></div>
+      <img class="card-img" src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&q=80" alt="GitHub Web Hosting" onerror="this.style.display='none'"/>
+      <div class="card-body">
+        <span class="card-tag">Web Dev</span>
+        <h2 class="card-title">How to Host Your Website Free on GitHub Pages</h2>
+        <p class="card-excerpt">After building my portfolio, I hosted it free on GitHub Pages. Here is a step-by-step guide so you can do the same in just a few minutes!</p>
+        <div class="card-meta">
+          <span>2024 &middot; 3 min read</span>
+          <a class="read-more">Read More &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8: MySQL -->
+    <div class="blog-card mysql" onclick="openModal('mysql')">
+      <div class="card-banner"></div>
+      <img class="card-img" src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&q=80" alt="MySQL Database" onerror="this.style.display='none'"/>
+      <div class="card-body">
+        <span class="card-tag">MySQL</span>
+        <h2 class="card-title">Introduction to MySQL — Databases Explained Simply</h2>
+        <p class="card-excerpt">MySQL is one of the most popular database systems in the world. Learn what it is, why we use it, and how to create your very first table.</p>
+        <div class="card-meta">
+          <span>2024 &middot; 5 min read</span>
+          <a class="read-more">Read More &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 9: Python & ML -->
+    <div class="blog-card cpp" onclick="openModal('cpp')">
+      <div class="card-banner"></div>
+      <img class="card-img" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&q=80" alt="Python Machine Learning" onerror="this.style.display='none'"/>
+      <div class="card-body">
+        <span class="card-tag">Python &amp; ML</span>
+        <h2 class="card-title">Getting Started with Python &amp; Machine Learning</h2>
+        <p class="card-excerpt">Python is the most popular language for AI and Machine Learning. Learn the basics and how it is used to build intelligent systems — the future of tech!</p>
+        <div class="card-meta">
+          <span>2024 &middot; 6 min read</span>
+          <a class="read-more">Read More &rarr;</a>
         </div>
       </div>
     </div>
@@ -547,50 +591,199 @@
   <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal" id="modalBox">
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <button class="modal-close" onclick="closeModalDirect()">x</button>
       <div id="modalContent"></div>
     </div>
   </div>
 
-  <footer>© 2025 Shakeel Ahmad — Built with ❤️ using HTML & CSS</footer>
+  <footer>
+    &copy; 2025 Shakeel Ahmad &mdash; Built with HTML &amp; CSS
+  </footer>
 
   <script>
     const posts = {
-      mysql: {
-        tag: '🗄️ MySQL',
-        tagColor: 'background:rgba(255,107,107,0.15);color:#ff6b6b',
-        title: 'Introduction to MySQL — Databases Explained Simply',
-        img: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=700&q=80',
+      uet: {
+        tag: 'UET Life',
+        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
+        title: 'My Journey to UET Lahore — Faisalabad Campus',
+        img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=700&q=80',
         content: `
-          <p>MySQL is a <strong>database management system (DBMS)</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development.</p>
-          <h3>Why Use MySQL?</h3>
+          <p>Getting into <strong>University of Engineering &amp; Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now studying at the Faisalabad Campus.</p>
+          <h3>My Educational Background</h3>
           <ul>
-            <li>Easy to learn and use</li>
-            <li>Fast performance even with large data</li>
-            <li>Open-source and free</li>
-            <li>Works perfectly with PHP and web apps</li>
-            <li>Secure and reliable</li>
+            <li>Matric from Govt. High School, Jhang City</li>
+            <li>FSc Pre-Engineering from Faran Model College, Jhang</li>
+            <li>Now studying Engineering at UET Lahore, Faisalabad Campus</li>
           </ul>
-          <h3>Creating Your First Table</h3>
-          <pre>CREATE TABLE students (
-  id    INT,
-  name  VARCHAR(50),
-  marks INT
-);</pre>
-          <h3>Inserting Data</h3>
-          <pre>INSERT INTO students VALUES (1, 'Shakeel', 95);</pre>
-          <h3>Viewing Data</h3>
-          <pre>SELECT * FROM students;</pre>
-          <p>MySQL is a must-learn skill for any web developer or software engineer. Start practicing today!</p>
+          <h3>Why Engineering?</h3>
+          <p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p>
+          <h3>The Entry Test Journey</h3>
+          <p>Getting into UET requires passing a competitive entry test — MDCAT/ECAT. I prepared hard after FSc, focused on Physics, Mathematics, and Chemistry, and Alhamdulillah I made it.</p>
+          <h3>What I Am Learning Now</h3>
+          <ul>
+            <li>Programming Fundamentals (python)</li>
+            <li>Applied Physics</li>
+            <li>Calculus and Discrete Math</li>
+            <li>Application of AICT</li>
+            <li>Mualimul Quran</li>
+          </ul>
+          <p>UET is challenging but every single day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is absolutely worth it!</p>
+        `
+      },
+      university: {
+        tag: 'University',
+        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
+        title: 'Life at UET Faisalabad Campus — A Complete Overview',
+        img: 'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=700&q=80',
+        content: `
+          <p><strong>University of Engineering &amp; Technology (UET) Lahore, Faisalabad Campus</strong> is one of the most prestigious engineering universities in Pakistan.</p>
+          <h3>Location and Campus</h3>
+          <p>The campus is located in Faisalabad — Pakistan's third largest city and the textile capital. The campus has modern buildings, well-equipped labs, and a peaceful academic environment.</p>
+          <h3>Facilities on Campus</h3>
+          <ul>
+            <li>Modern Computer Labs with latest equipment</li>
+            <li>Physics, Chemistry and Engineering Labs</li>
+            <li>Central Library with thousands of books</li>
+            <li>Student Hostels for boys</li>
+            <li>Canteen and dining area</li>
+            <li>Sports ground and recreational areas</li>
+            <li>Masjid on campus</li>
+          </ul>
+          <h3>Programs Offered</h3>
+          <ul>
+            <li>BS Computer Science</li>
+            <li>BS Electrical Engineering</li>
+            <li>BS Civil Engineering</li>
+            <li>BS Mechanical Engineering</li>
+            <li>BS Software Engineering</li>
+          </ul>
+          <p>If you are a student dreaming of engineering — UET is the place to be. Work hard in FSc, prepare well for the entry test, and Inshallah you will get here!</p>
+        `
+      },
+      hostel: {
+        tag: 'Hostel Life',
+        tagColor: 'background:rgba(255,154,60,0.15);color:#ff9a3c',
+        title: 'My Hostel Experience at UET — Living Away From Home',
+        img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80',
+        content: `
+          <p>Coming to UET meant leaving home for the first time. Moving into the university hostel was a completely new experience — exciting, challenging, and full of memories.</p>
+          <h3>Daily Hostel Routine</h3>
+          <ul>
+            <li>Wake up early for Fajr and morning classes</li>
+            <li>Breakfast at the hostel dining area</li>
+            <li>Attend lectures from 8 AM to 2 PM</li>
+            <li>Rest after lunch</li>
+            <li>Study time from evening till night</li>
+            <li>Night study sessions before exams</li>
+          </ul>
+          <h3>Best Things About Hostel Life</h3>
+          <ul>
+            <li>Independence and self-management</li>
+            <li>Strong friendships and bonding</li>
+            <li>Learning to manage your own life</li>
+            <li>Group study sessions that actually work</li>
+            <li>Being close to campus — no daily commute!</li>
+          </ul>
+          <h3>Challenges of Hostel Life</h3>
+          <ul>
+            <li>Missing home and family food</li>
+            <li>Managing your own laundry and room</li>
+            <li>Adjusting to different sleeping schedules of roommates</li>
+          </ul>
+          <p>Overall, hostel life has made me more mature, responsible, and independent. Every new student should experience it at least once!</p>
+        `
+      },
+      library: {
+        tag: 'Library',
+        tagColor: 'background:rgba(0,212,170,0.15);color:#00d4aa',
+        title: 'UET Library — My Favourite Place on Campus',
+        img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=700&q=80',
+        content: `
+          <p>The <strong>UET Faisalabad Campus Library</strong> is one of my favourite places on campus. Whenever I need to study seriously — the library is my first destination.</p>
+          <h3>What the Library Offers</h3>
+          <ul>
+            <li>Thousands of engineering and science textbooks</li>
+            <li>Reference books for all semesters and subjects</li>
+            <li>Past papers and exam preparation resources</li>
+            <li>Quiet reading and study zones</li>
+            <li>Digital resources and e-books access</li>
+          </ul>
+          <h3>Books I Use Most</h3>
+          <ul>
+            <li><strong>Calculus</strong> — Thomas Calculus (12th Edition)</li>
+            <li><strong>Programming</strong> — C++ by Deitel &amp; Deitel</li>
+            <li><strong>Physics</strong> — Halliday, Resnick &amp; Krane</li>
+            <li><strong>Discrete Math</strong> — Kenneth Rosen</li>
+          </ul>
+          <h3>My Library Tips</h3>
+          <ul>
+            <li>Visit the library before exams — not just during exams</li>
+            <li>Borrow books early before they run out</li>
+            <li>Make it a daily habit, even for 30 minutes</li>
+            <li>Use quiet zones for deep focus work</li>
+          </ul>
+          <p>The library is a student's best friend. Knowledge is free here — use it every single day!</p>
+        `
+      },
+      semester: {
+        tag: '1st Semester',
+        tagColor: 'background:rgba(255,110,180,0.15);color:#ff6eb4',
+        title: 'My First Semester Journey at UET — Subjects, Struggles and Success',
+        img: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&q=80',
+        content: `
+          <p>My first semester at UET Faisalabad was one of the most challenging and rewarding experiences of my life. Six subjects, new friends, a new city, and a whole new world of engineering.</p>
+          <h3>My 1st Semester Subjects</h3>
+          <div class="subject-grid">
+            <div class="subject-card">
+              <div class="subj-icon">&#x1F4D0;</div>
+              <div class="subj-name">Calculus</div>
+              <div class="subj-desc">Limits, Derivatives, Integration</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">&#x1F4BB;</div>
+              <div class="subj-name">Programming Fundamentals</div>
+              <div class="subj-desc">C++ Basics, Logic Building</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">&#x26A1;</div>
+              <div class="subj-name">Applied Physics</div>
+              <div class="subj-desc">Mechanics, Waves, Electricity</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">&#x1F4D6;</div>
+              <div class="subj-name">Mualimul Quran</div>
+              <div class="subj-desc">Quran Recitation and Tajweed</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">&#x1F5A5;</div>
+              <div class="subj-name">Application of AICT</div>
+              <div class="subj-desc">Computer Skills and IT Tools</div>
+            </div>
+            <div class="subject-card">
+              <div class="subj-icon">&#x1F522;</div>
+              <div class="subj-name">Discrete Mathematics</div>
+              <div class="subj-desc">Logic, Sets, Graph Theory</div>
+            </div>
+          </div>
+          <h3>Lessons Learned in 1st Semester</h3>
+          <ul>
+            <li>Consistency beats last-minute cramming every time</li>
+            <li>Ask questions — professors are there to help you</li>
+            <li>Form study groups with serious classmates</li>
+            <li>Use the library regularly, not just before exams</li>
+            <li>Take care of your health — sleep and eat properly</li>
+            <li>Balance academic work with spiritual and mental peace</li>
+          </ul>
+          <p>My first semester was tough, but Alhamdulillah I survived it and grew stronger. To every new student entering UET — believe in yourself, work hard, and never give up!</p>
         `
       },
       htmlcss: {
-        tag: '🎨 HTML & CSS',
+        tag: 'HTML and CSS',
         tagColor: 'background:rgba(255,217,61,0.15);color:#ffd93d',
-        title: 'Build Your First Website with HTML & CSS',
+        title: 'Build Your First Website with HTML and CSS',
         img: 'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=700&q=80',
         content: `
-          <p><strong>HTML</strong> (HyperText Markup Language) gives structure to a webpage. <strong>CSS</strong> (Cascading Style Sheets) makes it look beautiful.</p>
+          <p><strong>HTML</strong> (HyperText Markup Language) gives structure to a webpage. <strong>CSS</strong> (Cascading Style Sheets) makes it look beautiful. I started learning this during my first semester — and it changed everything!</p>
           <h3>Basic HTML Structure</h3>
           <pre>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -604,11 +797,11 @@
 &lt;/html&gt;</pre>
           <h3>Adding CSS Style</h3>
           <pre>body {
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+  background-color: #0a0a0f;
+  font-family: sans-serif;
 }
 h1 {
-  color: blue;
+  color: #4d96ff;
   text-align: center;
 }</pre>
           <h3>Key HTML Tags to Know</h3>
@@ -618,227 +811,93 @@ h1 {
             <li><code>&lt;a&gt;</code> — Links</li>
             <li><code>&lt;img&gt;</code> — Images</li>
             <li><code>&lt;nav&gt;</code> — Navigation bar</li>
+            <li><code>&lt;div&gt;</code> — Container blocks</li>
           </ul>
-          <p>I built this entire website using only HTML and CSS. You can too!</p>
+          <p>I built this entire portfolio website using only HTML and CSS. You can too — just start with a simple page!</p>
         `
       },
       webdev: {
-        tag: '🌐 Web Dev',
+        tag: 'Web Dev',
         tagColor: 'background:rgba(107,203,119,0.15);color:#6bcb77',
         title: 'How to Host Your Website Free on GitHub Pages',
         img: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=700&q=80',
         content: `
-          <p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying anything!</p>
+          <p>GitHub Pages is a completely <strong>free hosting service</strong> by GitHub. You can host any HTML/CSS website without paying a single rupee!</p>
           <h3>Step-by-Step Guide</h3>
           <ul>
             <li>Create a free account at <code>github.com</code></li>
             <li>Create a new repository named <code>yourusername.github.io</code></li>
             <li>Upload your HTML and CSS files</li>
-            <li>Go to Settings → Pages → Enable GitHub Pages</li>
+            <li>Go to Settings then Pages then Enable GitHub Pages</li>
             <li>Your site is live at <code>yourusername.github.io</code></li>
           </ul>
           <h3>My Own Experience</h3>
-          <p>I am currently hosting my portfolio at <code>shakeel896.github.io</code> using this exact method. It is fast, free, and very easy to update.</p>
-          <h3>Tips</h3>
+          <p>I am currently hosting my portfolio at <code>shakeel896.github.io</code> using this exact method. It is fast, free, and very easy to update whenever I add new content.</p>
+          <h3>Pro Tips</h3>
           <ul>
             <li>Always name your main file <code>index.html</code></li>
             <li>Keep all files in the same folder</li>
-            <li>Commit changes to see them live instantly</li>
+            <li>Commit changes to see them live within minutes</li>
+            <li>Use a custom domain if you want a professional URL</li>
           </ul>
         `
       },
-      uet: {
-        tag: '🎓 UET Life',
-        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
-        title: 'My Journey to UET Lahore — Faisalabad Campus',
-        img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=700&q=80',
+      mysql: {
+        tag: 'MySQL',
+        tagColor: 'background:rgba(255,107,107,0.15);color:#ff6b6b',
+        title: 'Introduction to MySQL — Databases Explained Simply',
+        img: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=700&q=80',
         content: `
-          <p>Getting into <strong>University of Engineering & Technology (UET) Lahore</strong> was always my dream. Alhamdulillah, I am now studying at the Faisalabad Campus.</p>
-          <h3>My Background</h3>
+          <p>MySQL is a <strong>database management system (DBMS)</strong> used to store, organize, and retrieve data. It is one of the most widely used databases in web development worldwide.</p>
+          <h3>Why Use MySQL?</h3>
           <ul>
-            <li>📚 Matric from Govt. High School, Jhang City</li>
-            <li>🔬 FSc Pre Engineering from Faran Model College, Jhang</li>
-            <li>🎓 Now studying Engineering at UET Lahore, Faisalabad Campus</li>
+            <li>Easy to learn and use</li>
+            <li>Fast performance even with large data</li>
+            <li>Open-source and completely free</li>
+            <li>Works perfectly with PHP and web applications</li>
+            <li>Secure, stable, and reliable</li>
           </ul>
-          <h3>Why Engineering?</h3>
-          <p>I have always been passionate about technology and problem solving. Engineering gives me the opportunity to apply mathematics and science to build real solutions for the world.</p>
-          <h3>What I Am Learning</h3>
-          <ul>
-            <li>Programming Fundamentals (C++)</li>
-            <li>Applied Physics</li>
-            <li>Calculus & Discrete Math</li>
-            <li>Application of AICT</li>
-            <li>Mualimul Quran</li>
-          </ul>
-          <p>UET is challenging but every day I am learning something new. If you are an FSc student dreaming of engineering — work hard, it is worth it!</p>
+          <h3>Creating Your First Table</h3>
+          <pre>CREATE TABLE students (
+  id    INT,
+  name  VARCHAR(50),
+  marks INT
+);</pre>
+          <h3>Inserting Data</h3>
+          <pre>INSERT INTO students VALUES (1, 'Shakeel', 95);</pre>
+          <h3>Viewing Your Data</h3>
+          <pre>SELECT * FROM students;</pre>
+          <h3>Filtering Data</h3>
+          <pre>SELECT name FROM students WHERE marks > 80;</pre>
+          <p>MySQL is a must-learn skill for any web developer or software engineer. It pairs perfectly with HTML, CSS, and PHP to build full dynamic websites!</p>
         `
       },
       cpp: {
-        tag: '🐍 Python & ML',
+        tag: 'Python and ML',
         tagColor: 'background:rgba(199,125,255,0.15);color:#c77dff',
-        title: 'Getting Started with Python & Machine Learning',
+        title: 'Getting Started with Python and Machine Learning',
         img: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=700&q=80',
         content: `
-          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>.</p>
+          <p><strong>Python</strong> is the world's most popular programming language for <strong>Artificial Intelligence</strong> and <strong>Machine Learning</strong>. After learning HTML, CSS, and MySQL, Python was my next big step.</p>
           <h3>Your First Python Program</h3>
           <pre>print("Hello, World!")
 name = "Shakeel"
-print("My name is", name)</pre>
+age = 20
+print("My name is", name, "and I am", age, "years old.")</pre>
           <h3>Key Python Libraries for ML</h3>
           <ul>
-            <li><code>NumPy</code> — Mathematical operations</li>
-            <li><code>Pandas</code> — Data handling</li>
-            <li><code>Matplotlib</code> — Data visualization</li>
+            <li><code>NumPy</code> — Mathematical operations on arrays</li>
+            <li><code>Pandas</code> — Data handling and analysis</li>
+            <li><code>Matplotlib</code> — Data visualization and graphs</li>
             <li><code>Scikit-learn</code> — Machine Learning models</li>
-            <li><code>TensorFlow</code> — Deep Learning</li>
+            <li><code>TensorFlow</code> — Deep Learning and Neural Networks</li>
           </ul>
-          <p>Python and Machine Learning are the future of technology. As an engineering student, learning these skills will open endless career opportunities!</p>
-        `
-      },
-      university: {
-        tag: '🏫 University',
-        tagColor: 'background:rgba(77,150,255,0.15);color:#4d96ff',
-        title: 'Life at UET Faisalabad Campus — A Complete Overview',
-        img: 'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=700&q=80',
-        content: `
-          <p><strong>University of Engineering & Technology (UET) Lahore, Faisalabad Campus</strong> is one of the most prestigious engineering universities in Pakistan.</p>
-          <h3>📍 Location & Campus</h3>
-          <p>The campus is located in Faisalabad — Pakistan's third largest city. The campus has modern buildings, well-equipped labs, and a peaceful academic environment.</p>
-          <h3>🏗️ Facilities on Campus</h3>
-          <ul>
-            <li>🖥️ Computer Labs with modern equipment</li>
-            <li>🔬 Physics, Chemistry and Engineering Labs</li>
-            <li>📚 Central Library with thousands of books</li>
-            <li>🏠 Student Hostels for boys</li>
-            <li>🍽️ Canteen and dining area</li>
-            <li>⚽ Sports ground and recreational areas</li>
-            <li>🕌 Mosque on campus</li>
-          </ul>
-          <h3>📖 Programs Offered</h3>
-          <ul>
-            <li>BS Computer Science</li>
-            <li>BS Electrical Engineering</li>
-            <li>BS Civil Engineering</li>
-            <li>BS Mechanical Engineering</li>
-            <li>BS Software Engineering</li>
-          </ul>
-          <p>If you are a student dreaming of engineering — UET is the place to be. Work hard in FSc, prepare well for the entry test, and Inshallah you will get here!</p>
-        `
-      },
-      hostel: {
-        tag: '🏠 Hostel Life',
-        tagColor: 'background:rgba(255,154,60,0.15);color:#ff9a3c',
-        title: 'My Hostel Experience at UET — Living Away From Home',
-        img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=80',
-        content: `
-          <p>Coming to UET meant leaving home for the first time. Moving into the university hostel was a completely new experience — exciting, challenging, and full of memories.</p>
-          <h3>🛏️ Daily Hostel Routine</h3>
-          <ul>
-            <li>⏰ Wake up early for Fajr and morning classes</li>
-            <li>🍳 Breakfast at the hostel dining area</li>
-            <li>📚 Attend lectures from 8 AM to 2 PM</li>
-            <li>😴 Rest after lunch</li>
-            <li>📖 Study time from evening till night</li>
-            <li>🌙 Night study sessions before exams</li>
-          </ul>
-          <h3>😊 Best Things About Hostel Life</h3>
-          <ul>
-            <li>Independence and self-management</li>
-            <li>Strong friendships and bonding</li>
-            <li>Learning to cook simple meals</li>
-            <li>Group study sessions that actually work</li>
-            <li>Being close to campus — no daily commute!</li>
-          </ul>
-          <h3>😅 Challenges of Hostel Life</h3>
-          <ul>
-            <li>Missing home and family food</li>
-            <li>Managing your own laundry and room</li>
-            <li>Adjusting to different sleeping schedules of roommates</li>
-          </ul>
-          <p>Overall, hostel life has made me more mature, responsible, and independent. 😊</p>
-        `
-      },
-      library: {
-        tag: '📚 Library',
-        tagColor: 'background:rgba(0,212,170,0.15);color:#00d4aa',
-        title: 'UET Library — My Favourite Place on Campus',
-        img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=700&q=80',
-        content: `
-          <p>The <strong>UET Faisalabad Campus Library</strong> is one of my favourite places on campus. Whenever I need to study seriously — the library is my first destination.</p>
-          <h3>📖 What the Library Offers</h3>
-          <ul>
-            <li>Thousands of engineering and science textbooks</li>
-            <li>Reference books for all semesters and subjects</li>
-            <li>Past papers and exam preparation resources</li>
-            <li>Quiet reading and study zones</li>
-            <li>Digital resources and e-books access</li>
-          </ul>
-          <h3>📚 Books I Use Most</h3>
-          <ul>
-            <li><strong>Calculus</strong> — Thomas Calculus (12th Edition)</li>
-            <li><strong>Programming</strong> — C++ by Deitel & Deitel</li>
-            <li><strong>Physics</strong> — Halliday, Resnick & Krane</li>
-            <li><strong>Discrete Math</strong> — Kenneth Rosen</li>
-          </ul>
-          <h3>💡 My Library Tips</h3>
-          <ul>
-            <li>Visit the library before exams — not just during exams</li>
-            <li>Borrow books early before they run out</li>
-            <li>Make it a daily habit, even for 30 minutes</li>
-          </ul>
-          <p>The library is a student's best friend. Knowledge is free here — use it!</p>
-        `
-      },
-      semester: {
-        tag: '🎯 1st Semester',
-        tagColor: 'background:rgba(255,110,180,0.15);color:#ff6eb4',
-        title: 'My First Semester Journey at UET — Subjects, Struggles & Success',
-        img: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&q=80',
-        content: `
-          <p>My first semester at UET Faisalabad was one of the most challenging and rewarding experiences of my life. Six subjects, new friends, a new city, and a whole new world of engineering.</p>
-          <h3>📚 My 1st Semester Subjects</h3>
-          <div class="subject-grid">
-            <div class="subject-card">
-              <div class="subj-icon">📐</div>
-              <div class="subj-name">Calculus</div>
-              <div class="subj-desc">Limits, Derivatives, Integration</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">💻</div>
-              <div class="subj-name">Programming Fundamentals</div>
-              <div class="subj-desc">C++ Basics, Logic Building</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">⚡</div>
-              <div class="subj-name">Applied Physics</div>
-              <div class="subj-desc">Mechanics, Waves, Electricity</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">📿</div>
-              <div class="subj-name">Mualimul Quran</div>
-              <div class="subj-desc">Quran Recitation & Tajweed</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">🖥️</div>
-              <div class="subj-name">Application of AICT</div>
-              <div class="subj-desc">Computer Skills & IT Tools</div>
-            </div>
-            <div class="subject-card">
-              <div class="subj-icon">🔢</div>
-              <div class="subj-name">Discrete Mathematics</div>
-              <div class="subj-desc">Logic, Sets, Graph Theory</div>
-            </div>
-          </div>
-          <h3>🏆 Lessons Learned in 1st Semester</h3>
-          <ul>
-            <li>✅ Consistency beats last-minute cramming every time</li>
-            <li>✅ Ask questions — professors are there to help you</li>
-            <li>✅ Form study groups with serious classmates</li>
-            <li>✅ Use the library regularly, not just before exams</li>
-            <li>✅ Take care of your health — sleep and eat properly</li>
-            <li>✅ Balance academic work with spiritual and mental peace</li>
-          </ul>
-          <p>My first semester was tough, but Alhamdulillah I survived it and grew stronger. To every new student entering UET — believe in yourself, work hard, and never give up. 💪</p>
+          <h3>A Simple ML Example</h3>
+          <pre>from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(X_train, y_train)
+predictions = model.predict(X_test)</pre>
+          <p>Python and Machine Learning are the future of technology. As an engineering student, mastering these skills will open doors to AI, Data Science, and countless career opportunities!</p>
         `
       }
     };
@@ -869,13 +928,26 @@ print("My name is", name)</pre>
     function filterPosts(category, btn) {
       document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+
+      // Show/hide section dividers
+      const d1 = document.getElementById('divider-journey');
+      const d2 = document.getElementById('divider-tech');
+
+      const lifeCategories = ['uet', 'hostel', 'library', 'semester'];
+      const techCategories = ['htmlcss', 'webdev', 'mysql', 'cpp'];
+
       document.querySelectorAll('.blog-card').forEach(card => {
-        if (category === 'all' || card.classList.contains(category)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+        const matches = category === 'all' || card.classList.contains(category);
+        card.style.display = matches ? '' : 'none';
       });
+
+      if (category === 'all') {
+        d1.style.display = ''; d2.style.display = '';
+      } else if (lifeCategories.includes(category)) {
+        d1.style.display = ''; d2.style.display = 'none';
+      } else if (techCategories.includes(category)) {
+        d1.style.display = 'none'; d2.style.display = '';
+      }
     }
 
     document.addEventListener('keydown', e => {
