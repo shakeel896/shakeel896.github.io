@@ -266,6 +266,11 @@
       box-shadow: 0 8px 24px rgba(77,150,255,0.35);
     }
     .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     .success-msg {
       display: none;
@@ -279,6 +284,19 @@
       text-align: center;
     }
     .success-msg.show { display: block; animation: fadeUp 0.4s ease; }
+
+    .error-msg {
+      display: none;
+      background: rgba(255,107,107,0.1);
+      border: 1px solid rgba(255,107,107,0.3);
+      color: #ff6b6b;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 14px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .error-msg.show { display: block; animation: fadeUp 0.4s ease; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -401,38 +419,50 @@
         <h2>Send a Message</h2>
         <p class="form-sub">Fill out the form below and I'll reply as soon as possible.</p>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name *</label>
-            <input type="text" id="name" placeholder="e.g. Ali Ahmed" />
+        <form id="contactForm">
+          <!-- Web3Forms Access Key -->
+          <input type="hidden" name="access_key" value="2d021038-1037-4c2c-9a14-3f026c89f277">
+          <!-- Optional: makes the email subject nicer in your inbox -->
+          <input type="hidden" name="from_name" value="Portfolio Contact Form">
+          <!-- Honeypot spam-protection field (keep hidden, don't remove) -->
+          <input type="checkbox" name="botcheck" style="display:none">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name *</label>
+              <input type="text" id="name" name="name" placeholder="e.g. Ali Ahmed" required />
+            </div>
+            <div class="form-group">
+              <label>Your Email *</label>
+              <input type="email" id="email" name="email" placeholder="ali@example.com" required />
+            </div>
           </div>
+
           <div class="form-group">
-            <label>Your Email *</label>
-            <input type="email" id="email" placeholder="ali@example.com" />
+            <label>Subject *</label>
+            <input type="text" id="subject" name="subject" placeholder="What is this about?" required />
           </div>
-        </div>
 
-        <div class="form-group">
-          <label>Subject *</label>
-          <input type="text" id="subject" placeholder="What is this about?" />
-        </div>
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+          </div>
 
-        <div class="form-group">
-          <label>Message *</label>
-          <textarea id="message" placeholder="Write your message here..."></textarea>
-        </div>
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            <span id="submitBtnText">Send Message</span>
+          </button>
 
-        <button class="submit-btn" onclick="sendMessage()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-          Send Message
-        </button>
-
-        <div class="success-msg" id="successMsg">
-          Message sent successfully! I will get back to you soon.
-        </div>
+          <div class="success-msg" id="successMsg">
+            Message sent successfully! I will get back to you soon.
+          </div>
+          <div class="error-msg" id="errorMsg">
+            Something went wrong. Please try again or email me directly.
+          </div>
+        </form>
       </div>
     </div>
 
@@ -443,43 +473,56 @@
   </footer>
 
   <script>
-    function sendMessage() {
-      const name    = document.getElementById('name').value.trim();
-      const email   = document.getElementById('email').value.trim();
-      const subject = document.getElementById('subject').value.trim();
-      const message = document.getElementById('message').value.trim();
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitBtnText = document.getElementById('submitBtnText');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
 
-      if (!name || !email || !subject || !message) {
-        alert('Please fill in all fields before sending!');
-        return;
-      }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address!');
-        return;
-      }
+      successMsg.classList.remove('show');
+      errorMsg.classList.remove('show');
 
-      const body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
-      const mailtoLink =
-        'mailto:shakeelahmadkhalilahmad299@gmail.com' +
-        '?subject=' + encodeURIComponent(subject) +
-        '&body='    + encodeURIComponent(body);
+      submitBtn.disabled = true;
+      submitBtnText.textContent = 'Sending...';
 
-      window.location.href = mailtoLink;
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
 
-      const successMsg = document.getElementById('successMsg');
-      successMsg.classList.add('show');
-
-      // Reset form after 3 seconds
-      setTimeout(function() {
-        document.getElementById('name').value    = '';
-        document.getElementById('email').value   = '';
-        document.getElementById('subject').value = '';
-        document.getElementById('message').value = '';
-        successMsg.classList.remove('show');
-      }, 3000);
-    }
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: json
+      })
+        .then(async (response) => {
+          let jsonResponse = await response.json();
+          if (response.status === 200) {
+            successMsg.classList.add('show');
+            form.reset();
+          } else {
+            console.log(response);
+            errorMsg.classList.add('show');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          errorMsg.classList.add('show');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtnText.textContent = 'Send Message';
+          setTimeout(function () {
+            successMsg.classList.remove('show');
+            errorMsg.classList.remove('show');
+          }, 5000);
+        });
+    });
   </script>
 
 </body>
